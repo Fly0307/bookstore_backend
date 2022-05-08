@@ -1,44 +1,44 @@
-package com.ebook.backend.utils.msgutils;
+package com.ebook.backend.utils.messagegutils;
 
 import net.sf.json.JSONObject;
 
 
-public class Msg {
+public class Message {
     private int status;
     private String msg;
     private JSONObject data;
 
-    Msg(MsgCode msg, JSONObject data){
+    Message(MessageCode msg, JSONObject data){
         this.status = msg.getStatus();
         this.msg = msg.getMsg();
         this.data = data;
     }
 
-    Msg(MsgCode msg, String extra, JSONObject data){
+    Message(MessageCode msg, String extra, JSONObject data){
         this.status = msg.getStatus();
         this.msg = extra;
         this.data = data;
     }
 
-    Msg(MsgCode msg){
+    Message(MessageCode msg){
         this.status = msg.getStatus();
         this.msg = msg.getMsg();
         this.data = null;
     }
 
-    Msg(MsgCode msg, String extra){
+    Message(MessageCode msg, String extra){
         this.status = msg.getStatus();
         this.msg = extra;
         this.data = null;
     }
 
-    Msg(int status, String extra, JSONObject data){
+    Message(int status, String extra, JSONObject data){
         this.status = status;
         this.msg = extra;
         this.data = data;
     }
 
-    Msg(int status, String extra){
+    Message(int status, String extra){
         this.status = status;
         this.msg = extra;
         this.data = null;

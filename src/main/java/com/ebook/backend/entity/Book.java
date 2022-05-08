@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Data
 @Entity
@@ -20,17 +19,18 @@ public class Book {
 
     @Id
     @Column(name = "book_id")
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     private int bookId;
 
     private String isbn;
     private String name;
     private String type;
     private String author;
-    private Double price;
+    private BigDecimal price;
     private String description;
-    private Integer inventory;
+    private Integer num;
     private String image;
     private Boolean state;
-
 
 }

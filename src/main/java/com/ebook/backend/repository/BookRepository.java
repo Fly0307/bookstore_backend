@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book,Integer> {
 
+
     @Query("select b from Book b")
     List<Book> getBooks();
+
+    @Query("from Book where bookId=?1")
+    Book getBookById(Integer bookId);
 }

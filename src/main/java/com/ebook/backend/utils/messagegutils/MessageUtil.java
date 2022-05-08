@@ -1,9 +1,9 @@
-package com.ebook.backend.utils.msgutils;
+package com.ebook.backend.utils.messagegutils;
 
 import net.sf.json.JSONObject;
 
 
-public class MsgUtil {
+public class MessageUtil {
 
     public static final int SUCCESS = 0;
     public static final int ERROR = -1;
@@ -20,27 +20,27 @@ public class MsgUtil {
 
 
 
-    public static Msg makeMsg(MsgCode code, JSONObject data){
-        return new Msg(code, data);
+    public static Message makeMsg(MessageCode code, JSONObject data){
+        return new Message(code, data);
     }
 
-    public static Msg makeMsg(MsgCode code, String msg, JSONObject data){
-        return new Msg(code, msg, data);
+    public static Message makeMsg(MessageCode code, String msg, JSONObject data){
+        return new Message(code, msg, data);
     }
 
-    public static Msg makeMsg(MsgCode code){
-        return new Msg(code);
+    public static Message makeMsg(MessageCode code){
+        return new Message(code);
     }
 
-    public static Msg makeMsg(MsgCode code, String msg){
-        return new Msg(code, msg);
+    public static Message makeMsg(MessageCode code, String msg){
+        return new Message(code, msg);
     }
 
-    public static Msg makeMsg(int status, String msg, JSONObject data){
-        return new Msg(status, msg, data);
+    public static Message makeMsg(int status, String msg, JSONObject data){
+        return new Message(status, msg, data);
     }
 
-    public static Msg makeMsg(int status, String msg){
-        return new Msg(status, msg);
+    public static Message makeMsg(int status, String msg){
+        return new Message(status, msg);
     }
 }

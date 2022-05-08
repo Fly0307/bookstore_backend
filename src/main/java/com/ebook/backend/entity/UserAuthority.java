@@ -7,14 +7,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-/**
- * @ClassName UserAuthority
- * @Description Entity of UserAuthority
- * @Author thunderBoy
- * @Date 2019/11/7 13:07
- */
 
 @Entity
 @Table(name = "user_authority")
@@ -25,8 +17,7 @@ public class UserAuthority {
     @Id
     private Integer userId;
     private String username;
-
-    @Transient
+//    @Transient   //序列化对象的时候，这个属性就不会序列化到指定的目的地中
     private String password;
 
     private Integer userType;

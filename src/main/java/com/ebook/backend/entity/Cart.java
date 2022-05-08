@@ -6,7 +6,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 //@SuppressWarnings("ALL")        //告诉编译器忽略指定的警告，不用在编译完成后出现警告信息。
 @Data
@@ -23,4 +26,5 @@ public class Cart {
     private Integer userId;
     private Integer bookId;
     private Integer purchaseNum;
+
 }

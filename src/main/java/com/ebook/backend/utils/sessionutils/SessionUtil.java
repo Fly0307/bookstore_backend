@@ -26,6 +26,27 @@ public class SessionUtil {
         return false;
     }
 
+    public static Integer getUserId() {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (requestAttributes != null) {
+            HttpServletRequest request = requestAttributes.getRequest();
+            HttpSession session = request.getSession(false);
+            if (session != null)
+                return (Integer) session.getAttribute("userId");
+        }
+        return null;
+    }
+    public static Integer getUserType() {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (requestAttributes != null) {
+            HttpServletRequest request = requestAttributes.getRequest();
+            HttpSession session = request.getSession(false);
+            if (session != null)
+                return (Integer) session.getAttribute("userType");
+        }
+        return null;
+    }
+
     public static JSONObject getAuth(){
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         // Session
