@@ -24,5 +24,4 @@ public interface UserOrderDao {
 
     List<UserOrder> getOnesOrder(Date start, Date end,Integer userId);
 
-/*    List<UserOrder>  getAllOrderByKeyword(Date start, Date end,String keyword);*/
 }

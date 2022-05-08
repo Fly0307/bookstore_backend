@@ -8,6 +8,7 @@ import com.ebook.backend.repository.OrderItemRepository;
 import com.ebook.backend.repository.UserOrderRepository;
 import com.ebook.backend.utils.sessionutils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Repository
 public class UserOrderDaoImpl implements UserOrderDao {
 
     @Autowired
@@ -90,38 +92,5 @@ public class UserOrderDaoImpl implements UserOrderDao {
     public List<UserOrder> getOnesOrder(Date start, Date end, Integer userId) {
         return userOrderRepository.getOrdersInRange(userId, start, end);
     }
+
 }
-
-   /* @Override
-    public List<UserOrder> getOrderByKeyword(Date start, Date end, String keyword) {
-        Integer userId = SessionUtil.getUserId();
-        List<UserOrder> userOrdersByDate=userOrderRepository.getOrdersInRange(userId,start,end);
-        List<UserOrder> resultOrders = new ArrayList<>();
-        for (UserOrder userOrder : userOrdersByDate) {
-            Set<OrderItem> items = userOrder.getOrders();
-            for (OrderItem item : items) {
-                if(item.getBook().getName().contains(keyword)){
-                    resultOrders.add(userOrder);
-                    break;
-                }
-            }
-        }
-        return resultOrders;
-    }*/
-
-/*    @Override
-    public List<UserOrder> getAllOrderByKeyword(Date start, Date end, String keyword) {
-        List<UserOrder> allOrdersByDate = userOrderRepository.getOrderByDate(start,end);
-        List<UserOrder> resultOrders = new ArrayList<>();
-        for (UserOrder userOrder : allOrdersByDate) {
-            Set<OrderItem> items = userOrder.getOrders();
-            for (OrderItem item : items) {
-                if(item.getBook().getName().contains(keyword)){
-                    resultOrders.add(userOrder);
-                    break;
-                }
-            }
-        }
-        return resultOrders ;
-    }
-}*/

@@ -21,7 +21,7 @@ public interface UserOrderService {
 
     List<UserOrder> getOrderByDate(Date start, Date end);
 
-    List<UserOrder> getOrderByKeyword(Date start, Date end,String keyword);
+    /*List<UserOrder> getOrderByKeyword(Date start, Date end,String keyword);*/
 
-    List<UserOrder> getAllOrderByKeyword(Date start, Date end, String keyword);
+    /*List<UserOrder> getAllOrderByKeyword(Date start, Date end, String keyword);*/
 }

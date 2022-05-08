@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class UserOrderController {
 
@@ -17,7 +18,7 @@ public class UserOrderController {
     UserOrderService userOrderService;
 
     @RequestMapping("/getUserOrders")
-    ArrayList<UserOrder> getAllOrders() {
+    ArrayList<UserOrder> getAllOrders(@RequestBody Map<String, String> params) {
         return userOrderService.getAllOrders();
     }
 

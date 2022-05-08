@@ -8,6 +8,7 @@ import com.ebook.backend.entity.Book;
 import com.ebook.backend.entity.Cart;
 import com.ebook.backend.entity.User;
 import com.ebook.backend.entity.UserOrder;
+import com.ebook.backend.repository.BookRepository;
 import com.ebook.backend.service.UserOrderService;
 import com.ebook.backend.utils.messagegutils.Message;
 import com.ebook.backend.utils.messagegutils.MessageUtil;
@@ -23,10 +24,15 @@ import java.util.List;
 @Service
 public class UserOrderServiceimpl implements UserOrderService {
 
-    UserOrderDao userOrderDao;
-    BookDao bookDao;
-    CartDao cartDao;
-    UserDao userDao;
+    private UserOrderDao userOrderDao;
+
+    private BookDao bookDao;
+
+    private CartDao cartDao;
+
+    private UserDao userDao;
+
+    private BookRepository bookRepository;
 
     @Autowired
     void setUserDao(UserDao userDao) {
@@ -63,17 +69,19 @@ public class UserOrderServiceimpl implements UserOrderService {
         User user = userDao.getUser();
         List<Cart> cartItems = userDao.getCart(user.getUserId());
         for (Cart cartItem : cartItems){
-            if(cartItem.getPurchaseNum()>cartItem.getBook().getNum())
-                return MessageUtil.makeMsg(-5,cartItem.getBook().getName()+"库存不够");
+            Book book = bookRepository.getBookById(cartItem.getBookId());
+            if(cartItem.getPurchaseNum()>book.getNum())
+                return MessageUtil.makeMsg(-5,book.getName()+"库存不够");
         }
         Integer orderId= userOrderDao.addUserOrder(user.getUsername(),user.getUserTel(),user.getUserAddress());
         for (Cart cartItem : cartItems) {
+            Book book = bookRepository.getBookById(cartItem.getBookId());
             if(bookDao.changeSale(cartItem.getBookId(),cartItem.getPurchaseNum()).getStatus()>0){
                 userOrderDao.addOrderItem(orderId,cartItem.getBookId(),cartItem.getPurchaseNum());
                 cartDao.deleteBook(cartItem.getBookId());
             }
             else{
-                return MessageUtil.makeMsg(-5,cartItem.getBook().getName()+"库存不够");
+                return MessageUtil.makeMsg(-5,book.getName()+"库存不够");
             }
         }
         return MessageUtil.makeMsg(2, "消费成功");
@@ -113,15 +121,15 @@ public class UserOrderServiceimpl implements UserOrderService {
         return userOrderDao.getOrderByDate(start,end);
     }
 
-    @Override
+   /* @Override
     public List<UserOrder> getOrderByKeyword(Date start, Date end, String keyword) {
         return userOrderDao.getOrderByKeyword(start,end,keyword);
-    }
+    }*/
 
-    @Override
+/*    @Override
     public List<UserOrder> getAllOrderByKeyword(Date start, Date end, String keyword) {
         return userOrderDao.getAllOrderByKeyword(start,end,keyword);
-    }
+    }*/
 
 
 }
