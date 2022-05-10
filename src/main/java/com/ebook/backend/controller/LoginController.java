@@ -7,7 +7,6 @@ import com.ebook.backend.utils.messagegutils.Message;
 import com.ebook.backend.utils.messagegutils.MessageCode;
 import com.ebook.backend.utils.messagegutils.MessageUtil;
 import com.ebook.backend.utils.sessionutils.SessionUtil;
-
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
-
+//@CrossOrigin
 @RestController
 public class LoginController {
 
 
     @Autowired
     private UserService userService;
-
+    //@ResponseBody
     @RequestMapping("/login")
     public Message login(@RequestBody Map<String, String> params){
         String username = params.get(Constant.USERNAME);
