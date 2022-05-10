@@ -8,7 +8,6 @@ import com.ebook.backend.utils.messagegutils.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -48,7 +47,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Message addBook(String isbn, String name, String type, String author, String description, String image, Integer num, Boolean state, BigDecimal price){
+    public Message addBook(String isbn, String name, String type, String author, String description, String image, Integer num, Boolean state, Integer price){
         Book book = new Book();
         book.setAuthor(author);
         book.setImage(image);

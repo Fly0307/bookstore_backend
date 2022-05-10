@@ -121,15 +121,5 @@ public class UserOrderServiceimpl implements UserOrderService {
         return userOrderDao.getOrderByDate(start,end);
     }
 
-   /* @Override
-    public List<UserOrder> getOrderByKeyword(Date start, Date end, String keyword) {
-        return userOrderDao.getOrderByKeyword(start,end,keyword);
-    }*/
-
-/*    @Override
-    public List<UserOrder> getAllOrderByKeyword(Date start, Date end, String keyword) {
-        return userOrderDao.getAllOrderByKeyword(start,end,keyword);
-    }*/
-
 
 }

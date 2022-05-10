@@ -19,6 +19,7 @@ public class OrderItem {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     Integer id;
+
     Integer bookId;
     Integer orderId;
 

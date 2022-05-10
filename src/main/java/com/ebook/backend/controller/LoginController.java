@@ -4,15 +4,15 @@ import com.ebook.backend.constant.Constant;
 import com.ebook.backend.entity.UserAuthority;
 import com.ebook.backend.service.UserService;
 import com.ebook.backend.utils.messagegutils.Message;
-import com.ebook.backend.utils.sessionutils.SessionUtil;
 import com.ebook.backend.utils.messagegutils.MessageCode;
 import com.ebook.backend.utils.messagegutils.MessageUtil;
+import com.ebook.backend.utils.sessionutils.SessionUtil;
+
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import java.util.Map;
 
@@ -24,7 +24,6 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping("/login")
-    //public Message login(@RequestParam(Constant.USERNAME) String username, @RequestParam(Constant.PASSWORD) String password, @RequestParam(Constant.REMEMBER_ME) Boolean remember){
     public Message login(@RequestBody Map<String, String> params){
         String username = params.get(Constant.USERNAME);
         String password = params.get(Constant.PASSWORD);
