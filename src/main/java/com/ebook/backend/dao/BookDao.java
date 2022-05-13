@@ -10,6 +10,7 @@ public interface BookDao {
 
     List<Book> getBooks();
 
+
     Message addBook(String isbn, String name, String type, String author, String description,
                     String image, Integer num, Boolean state, Integer price);
     Book getBookById(Integer bookId);

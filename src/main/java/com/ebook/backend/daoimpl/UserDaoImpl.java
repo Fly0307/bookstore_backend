@@ -45,9 +45,15 @@ public class UserDaoImpl implements UserDao {
         return userAuthRepository.checkUser(username,password);
     }
     @Override
-    public Message add2Cart(Integer buyer, Integer bookid, Integer purchaseNum) {
-        System.out.println("try to insert" + bookid);
-        cartRepository.add2repository(bookid, buyer, purchaseNum);
+    public Message addToCart(Integer buyer, Integer bookid, Integer purchaseNum) {
+        System.out.println("try to insert:" + bookid);
+        Cart cart=new Cart();
+        cart.setUserId(buyer);
+        cart.setCartId(bookid);
+        cart.setPurchaseNum(purchaseNum);
+
+        /*还没有save*/
+        /*cartRepository.add2repository(bookid, buyer, purchaseNum);*/
         System.out.println("success to insert");
         return MessageUtil.makeMsg(0, "加入成功");
     }

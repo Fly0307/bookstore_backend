@@ -8,18 +8,29 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+@RestController
 public class UserOrderController {
 
     @Autowired
     UserOrderService userOrderService;
 
+
     @RequestMapping("/getUserOrders")
-    ArrayList<UserOrder> getAllOrders(@RequestBody Map<String, String> params) {
+    List<UserOrder> getAllOrders(@RequestBody Map<String, String> params) {
         return userOrderService.getAllOrders();
+    }
+
+    @RequestMapping("/modifyOrders")
+    Message modifyOrders(@RequestBody JSONObject object) {
+        Integer orderId= Integer.valueOf(object.getString("orderId"));
+        Integer orderState= Integer.valueOf(object.getString("state"));
+
+        return userOrderService.modifyOrders(orderId,orderState);
     }
 
     @RequestMapping("/newOrder")
@@ -28,7 +39,7 @@ public class UserOrderController {
         String address =order.getString("address");
         String receiver =order.getString("receiver");
         JSONArray cartItems = order.getJSONArray("books");
-        return userOrderService.recordUserOrder(cartItems,tel,receiver,address);
+        return userOrderService.recordUserOrder(receiver,tel,address,cartItems);
     }
 
 }

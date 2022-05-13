@@ -1,12 +1,15 @@
 package com.ebook.backend.serviceimpl;
 
 import com.ebook.backend.dao.UserDao;
+import com.ebook.backend.entity.Cart;
 import com.ebook.backend.entity.UserAuthority;
 import com.ebook.backend.service.UserService;
 import com.ebook.backend.utils.messagegutils.Message;
 import com.ebook.backend.utils.sessionutils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -29,8 +32,14 @@ public class UserServiceImpl implements UserService {
         return userDao.register(username,password,email);
     }
     @Override
-    public Message add2Cart(Integer bookId, Integer purchaseNumber){
+    public Message addToCart(Integer bookId, Integer purchaseNumber){
         Integer custom = SessionUtil.getUserId();
-        return userDao.add2Cart(custom,bookId,purchaseNumber);
+        System.out.println("加入数量:");
+        return userDao.addToCart(custom,bookId,purchaseNumber);
+    }
+    @Override
+    public List<Cart> getCart(Integer userid) {
+        Integer custom = SessionUtil.getUserId();
+        return userDao.getCart(custom);
     }
 }

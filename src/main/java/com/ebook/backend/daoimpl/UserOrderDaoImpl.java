@@ -6,13 +6,14 @@ import com.ebook.backend.entity.UserOrder;
 import com.ebook.backend.repository.BookRepository;
 import com.ebook.backend.repository.OrderItemRepository;
 import com.ebook.backend.repository.UserOrderRepository;
+import com.ebook.backend.utils.messagegutils.Message;
+import com.ebook.backend.utils.messagegutils.MessageUtil;
 import com.ebook.backend.utils.sessionutils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,12 @@ public class UserOrderDaoImpl implements UserOrderDao {
     }
 
     @Override
-    public ArrayList<UserOrder> getAllOrders() {
+    public List<OrderItem> getOrderItemByOrderId(Integer orderId) {
+        return orderItemRepository.getOrderItemByOrderId(orderId);
+    }
+
+    @Override
+    public List<UserOrder> getAllOrders() {
         Integer userId = SessionUtil.getUserId();
         if (userId != null)
             return userOrderRepository.getAllOrders(userId);
@@ -49,7 +55,13 @@ public class UserOrderDaoImpl implements UserOrderDao {
     }
 
     @Override
-    public Integer addUserOrder(String receiver, String tel, String address) {
+    public Message deleteOrder(Integer userId, Integer OrderId) {
+        orderItemRepository.deleteOrderById(OrderId);
+        return MessageUtil.makeMsg(1,"删除订单内容成功");
+    }
+
+    @Override
+    public Integer addUserOrder(String receiver, String tel, String address, Integer totalPrice) {
         Integer userId = SessionUtil.getUserId();
 
         if (userId != null) {
@@ -61,7 +73,9 @@ public class UserOrderDaoImpl implements UserOrderDao {
             userOrder.setOrderReceiver(receiver);
             userOrder.setOrderAddress(address);
             userOrder.setOrderTel(tel);
+            userOrder.setTotalPrice(totalPrice);
             userOrder.setOrderTime(Timestamp.valueOf(LocalDateTime.now()));
+            userOrder.setState(1);
             return userOrderRepository.saveAndFlush(userOrder).getOrderId();//返回生成的OrderId
         }
         return null;
@@ -91,6 +105,16 @@ public class UserOrderDaoImpl implements UserOrderDao {
     @Override
     public List<UserOrder> getOnesOrder(Date start, Date end, Integer userId) {
         return userOrderRepository.getOrdersInRange(userId, start, end);
+    }
+
+    @Override
+    public Message updateOrder(Integer orderId, Integer orderState) {
+//        UserOrder userOrder = new UserOrder();
+//        userOrder.setOrderId(orderId);
+//        userOrder.setState(orderState);
+//        userOrderRepository.save(userOrder);
+        userOrderRepository.updateState(orderId,orderState);
+        return MessageUtil.makeMsg(1,"修改订单成功");
     }
 
 }

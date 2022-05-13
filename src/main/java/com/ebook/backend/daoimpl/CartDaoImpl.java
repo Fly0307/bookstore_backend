@@ -25,5 +25,11 @@ public class CartDaoImpl implements CartDao {
         cartRepository.modifyCart(bookId,newPurchaseNum,userId);
     }
 
+    @Override
+    public void addNewCart(Integer userId, Integer bookId,Integer PurchaseNum) {
+        cartRepository.addNewCart(userId,bookId,PurchaseNum);
+
+    }
+
 
 }

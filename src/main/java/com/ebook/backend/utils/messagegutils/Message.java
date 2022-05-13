@@ -25,7 +25,6 @@ public class Message {
         this.msg = msg.getMsg();
         this.data = null;
     }
-
     Message(MessageCode msg, String extra){
         this.status = msg.getStatus();
         this.msg = extra;

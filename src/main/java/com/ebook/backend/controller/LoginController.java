@@ -27,6 +27,7 @@ public class LoginController {
         String username = params.get(Constant.USERNAME);
         String password = params.get(Constant.PASSWORD);
         UserAuthority auth = userService.checkUser(username, password);
+
         if(auth != null){
 
             JSONObject obj = new JSONObject();

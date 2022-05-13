@@ -1,19 +1,23 @@
 package com.ebook.backend.dao;
 
+import com.ebook.backend.entity.OrderItem;
 import com.ebook.backend.entity.UserOrder;
+import com.ebook.backend.utils.messagegutils.Message;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public interface UserOrderDao {
+public interface UserOrderDao{
 
-    ArrayList<UserOrder> getAllOrders();
+    List<OrderItem> getOrderItemByOrderId(Integer orderId);
+
+    List<UserOrder> getAllOrders();
 
     List<UserOrder> manageOrders();
+    Message deleteOrder(Integer userId,Integer OrderId);
 
     //返回生成的OrderId
-    Integer addUserOrder(String receiver, String tel, String address);
+    Integer addUserOrder(String receiver, String tel, String address, Integer totalPrice);
 
     UserOrder getUserOrder(Integer orderId);
 
@@ -24,4 +28,5 @@ public interface UserOrderDao {
 
     List<UserOrder> getOnesOrder(Date start, Date end,Integer userId);
 
+    Message updateOrder(Integer orderId, Integer orderState);
 }

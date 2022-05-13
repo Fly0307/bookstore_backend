@@ -3,23 +3,23 @@ package com.ebook.backend.service;
 import com.ebook.backend.entity.UserOrder;
 import com.ebook.backend.utils.messagegutils.Message;
 import net.sf.json.JSONArray;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
 public interface UserOrderService {
 
-    ArrayList<UserOrder> getAllOrders() ;
+    List<UserOrder> getAllOrders() ;
 
     List<UserOrder> manageOrders();
 
-    Message recordUserOrder();
+    Message recordUserOrder(String receiver,String tel,String address,JSONArray books);
 
-    Message recordUserOrder(JSONArray books,String tel,String receiver,String address);
+    Message deleteUserOrders(Integer userId,Integer orderId);
 
-    List<UserOrder> getOrderByDate(Date start, Date end);
+
+    Message modifyOrders(Integer orderId, Integer orderState);
 
     /*List<UserOrder> getOrderByKeyword(Date start, Date end,String keyword);*/
 

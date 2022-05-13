@@ -14,7 +14,7 @@ public interface UserDao {
     List<Cart> getCart(Integer userid);
     UserAuthority checkUser(String username, String password);
 
-    Message add2Cart(Integer buyer, Integer bookid, Integer purchaseNum);
+    Message addToCart(Integer buyer, Integer bookid, Integer purchaseNum);
 
     Message register(String userName, String password, String email);
 
