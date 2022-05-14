@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+@Transactional
 public interface UserOrderRepository extends JpaRepository<UserOrder,Integer> {
     @Query("from UserOrder where userId = ?1")
     ArrayList<UserOrder> getAllOrders(Integer userId);

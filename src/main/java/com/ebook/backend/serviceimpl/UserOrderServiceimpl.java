@@ -79,7 +79,7 @@ public class UserOrderServiceimpl implements UserOrderService {
             JSONObject jobj = JSONObject.fromObject(book);
             Integer bookId = jobj.getInt("bookId");
             Book tmpBook =bookDao.getBookById(bookId);
-            totalPrice+=tmpBook.getPrice();
+            totalPrice=totalPrice+tmpBook.getPrice()*jobj.getInt("purchaseNum");
             if(jobj.getInt("purchaseNum")>bookDao.getBookById(bookId).getNum())
             {return MessageUtil.makeMsg(-5,tmpBook.getName()+"库存不够");}
         }
