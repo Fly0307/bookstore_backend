@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import com.alibaba.fastjson.JSON;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -30,5 +31,8 @@ public class Book {
     private Integer num;
     private String image;
     private Boolean state;
-
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 }

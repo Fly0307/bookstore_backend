@@ -8,11 +8,9 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @Entity
@@ -34,8 +32,11 @@ public class UserOrder {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Date orderTime;
-
     Integer totalPrice;
     Integer state;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "orderId")
+    Set<OrderItem> orders;
 
 }

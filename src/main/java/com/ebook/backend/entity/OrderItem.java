@@ -6,7 +6,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 //@SuppressWarnings("ALL")
 @Data
@@ -22,6 +25,7 @@ public class OrderItem {
 
     Integer bookId;
     Integer orderId;
+
 
     Integer purchaseNumber;
 }
