@@ -8,9 +8,11 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import java.util.Set;
 
 @Data
 @Entity
@@ -35,8 +37,5 @@ public class UserOrder {
     Integer totalPrice;
     Integer state;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "orderId")
-    Set<OrderItem> orders;
 
 }

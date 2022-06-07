@@ -22,10 +22,7 @@ public class Cart {
     private  Integer cartId;
     private Integer userId;
     private Integer bookId;
-    @MapsId("book_id")
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bookId", referencedColumnName = "bookId")
-    Book book;
+
     private Integer purchaseNum;
 
 }
