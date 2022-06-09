@@ -8,7 +8,9 @@ import com.ebook.backend.utils.messagegutils.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class BookDaoImpl implements BookDao {
@@ -62,6 +64,34 @@ public class BookDaoImpl implements BookDao {
         return MessageUtil.makeMsg(200, "加入成功");
     }
 
+    @Override
+    @Transactional
+    //修改先改 cash 再改database
+    public Message modifyBook(Map<String, String> params){
+        Integer bookId = Integer.parseInt(params.get("bookId"));
+//        String bookKey = "bookId:" + bookId;
+        Book book=bookRepository.getBookById(bookId);
+//        Book book =(Book) redisUtil.get(bookKey);
+        if(book!=null){
+            System.out.format("有 id 为 %d 的书",bookId);
+        }
+        else {
+            book = bookRepository.getBookById(bookId);
+            System.out.format("有 id 为 %d 的书",bookId);
+        }
+        book.setDescription(params.get("description"));
+        book.setIsbn(params.get("isbn"));
+        book.setNum(Integer.parseInt(params.get("num")));
+        book.setType(params.get("type"));
+        book.setName(params.get("name"));
+        book.setImage(params.get("image"));
+        book.setPrice(Integer.valueOf(params.get("price")));
+        book.setAuthor(params.get("author"));
+        book.setState(params.get("state").equals("1"));
+//        redisUtil.set(bookKey,book,300);
+        bookRepository.save(book);
+        return MessageUtil.makeMsg(4,"修改成功");
+    }
 
 
 

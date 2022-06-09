@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.Map;
 
 
 @Service
@@ -31,6 +31,11 @@ public class BookServiceImpl implements BookService {
     public Message addBook(String isbn, String name, String type, String author, String description, Integer num, String image, Boolean state, Integer price) {
         return bookDao.addBook(isbn, name, type, author, description, image, num, state, price);
 
+    }
+
+    @Override
+    public Message modifyBook(Map<String, String> params) {
+        return bookDao.modifyBook(params);
     }
 
 }

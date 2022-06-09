@@ -4,6 +4,7 @@ import com.ebook.backend.entity.Book;
 import com.ebook.backend.utils.messagegutils.Message;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface BookService {
@@ -15,4 +16,5 @@ public interface BookService {
     Message addBook(String isbn , String name, String type , String author, String description, Integer num,
                     String image, Boolean state, Integer price);
 
+    Message modifyBook(Map<String, String> params);
 }

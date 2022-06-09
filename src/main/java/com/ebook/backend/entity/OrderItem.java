@@ -21,12 +21,11 @@ public class OrderItem {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    Integer id;
+    private Integer id;
 
-    Integer bookId;
-    Integer orderId;
+    private Integer bookId;
+    private Integer orderId;
 
-
-    Integer purchaseNumber;
+    private Integer purchaseNumber;
 }
 

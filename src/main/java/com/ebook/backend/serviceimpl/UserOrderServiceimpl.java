@@ -109,13 +109,13 @@ public class UserOrderServiceimpl implements UserOrderService {
     @Override
     public Message deleteUserOrders(Integer userId,Integer orderId) {
         List<OrderItem> orderItems = userOrderDao.getOrderItemByOrderId(orderId);
-        for (OrderItem order : orderItems){
+        /*for (OrderItem order : orderItems){
             Integer tmpId=order.getOrderId();
             userOrderDao.deleteOrder(userId,tmpId);
-            System.out.println("删除订单结果");
-        }
-        userOrderRepository.deleteOrderById(orderId);
-
+            System.out.println("删除订单内容");
+        }*/
+//        userOrderRepository.deleteOrderById(orderId);
+        userOrderRepository.deleteById(orderId);
         return MessageUtil.makeMsg(1,"删除成功");
 
     }
@@ -125,6 +125,7 @@ public class UserOrderServiceimpl implements UserOrderService {
     public Message modifyOrders(Integer orderId, Integer orderState) {
         Integer userId = SessionUtil.getUserId();
         if(orderState==0){
+            /*如果state==0,则删除订单*/
             deleteUserOrders(userId,orderId);
         }
         if(orderState!= 0){

@@ -19,12 +19,12 @@ public class UserOrderController {
     @Autowired
     UserOrderService userOrderService;
 
-
     @RequestMapping("/getUserOrders")
     List<UserOrder> getAllOrders(@RequestBody Map<String, String> params) {
         return userOrderService.getAllOrders();
     }
 
+    /*如果state为0则删除订单，否则修改订单状态 1未支付，2已支付，3已完成*/
     @RequestMapping("/modifyOrders")
     Message modifyOrders(@RequestBody JSONObject object) {
         Integer orderId= Integer.valueOf(object.getString("orderId"));

@@ -4,6 +4,7 @@ import com.ebook.backend.entity.Book;
 import com.ebook.backend.utils.messagegutils.Message;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BookDao {
    // Book findOne(Integer id);
@@ -16,4 +17,6 @@ public interface BookDao {
     Book getBookById(Integer bookId);
 
     Message changeSale(Integer bookId, Integer purchaseNum);
+
+    Message modifyBook(Map<String, String> params);
 }

@@ -20,9 +20,9 @@ public interface UserOrderRepository extends JpaRepository<UserOrder,Integer> {
     @Query(value = "from UserOrder where orderTime between ?2 and ?3 and userId = ?1")
     List<UserOrder> getOrdersInRange(Integer userId, Date start, Date end);
 
-    @Modifying
-    @Query("delete from UserOrder where orderId=?1")
-    void deleteOrderById(Integer orderId);
+//    @Modifying
+//    @Query("delete from UserOrder where orderId=?1")
+//    void deleteOrderById(Integer orderId);
 
     @Modifying
     @Query("update UserOrder uo set uo.state = :orderState where uo.orderId = :orderId")
