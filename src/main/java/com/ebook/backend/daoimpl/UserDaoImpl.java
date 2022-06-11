@@ -10,6 +10,8 @@ import com.ebook.backend.repository.UserRepository;
 import com.ebook.backend.utils.messagegutils.Message;
 import com.ebook.backend.utils.messagegutils.MessageUtil;
 import com.ebook.backend.utils.sessionutils.SessionUtil;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -82,6 +84,47 @@ public class UserDaoImpl implements UserDao {
         if(check!=null)
             return MessageUtil.makeMsg(-1,"用户名重复");
         else return MessageUtil.makeMsg(1,"用户名不重复");
+    }
+
+    @Override
+    public JSONArray getAllUsers() {
+        List<UserAuthority> allUserAuthority=userAuthRepository.findAll();
+        JSONArray ret = new JSONArray();
+        for (UserAuthority authority : allUserAuthority) {
+            User tmpUser = userRepository.getUserById(authority.getUserId());
+            JSONObject tmpObject =new JSONObject();
+            tmpObject.put("userInfo",tmpUser);
+            tmpObject.put("userType",authority.getUserType());
+            tmpObject.put("userState",authority.getUserState());
+            ret.add(tmpObject);
+        }
+        return ret;
+    }
+
+    @Override
+    public Message banUser(int userId) {
+        if (!userAuthRepository.existsById(userId)) {
+            return MessageUtil.makeMsg(MessageUtil.BAN_ERROR_CODE, MessageUtil.BAN_ERROR_MSG);
+        }
+        UserAuthority userAuthority = userAuthRepository.getOne(userId);
+        if (userAuthority.getUserType() > 0)//管理员账号,无法禁用
+            return MessageUtil.makeMsg(MessageUtil.BAN_ERROR_CODE, MessageUtil.BAN_ADMIN_MSG);
+        userAuthority.setUserType(-1);
+        userAuthRepository.save(userAuthority);
+        return MessageUtil.makeMsg(5, MessageUtil.BAN_SUCCESS_MSG);
+    }
+
+    @Override
+    public Message liftUser(int userId) {
+        if (!userAuthRepository.existsById(userId)) {
+            return MessageUtil.makeMsg(MessageUtil.BAN_ERROR_CODE, MessageUtil.BAN_ERROR_MSG);
+        }
+        UserAuthority userAuthority = userAuthRepository.getOne(userId);
+        if (userAuthority.getUserType() > 0)
+            return MessageUtil.makeMsg(MessageUtil.BAN_ERROR_CODE, MessageUtil.BAN_ADMIN_MSG);
+        userAuthority.setUserType(0);
+        userAuthRepository.save(userAuthority);
+        return MessageUtil.makeMsg(5, MessageUtil.LIFT_SUCCESS_MSG);
     }
 
 

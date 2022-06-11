@@ -6,6 +6,7 @@ import com.ebook.backend.entity.UserAuthority;
 import com.ebook.backend.service.UserService;
 import com.ebook.backend.utils.messagegutils.Message;
 import com.ebook.backend.utils.sessionutils.SessionUtil;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,20 @@ public class UserServiceImpl implements UserService {
     public List<Cart> getCart(Integer userid) {
         Integer custom = SessionUtil.getUserId();
         return userDao.getCart(custom);
+    }
+
+    @Override
+    public JSONArray getAllUsers() {
+        return userDao.getAllUsers();
+    }
+
+    @Override
+    public Message banUser(int userId) {
+        return userDao.banUser(userId);
+    }
+
+    @Override
+    public Message liftUser(int userId) {
+        return userDao.liftUser(userId);
     }
 }

@@ -4,6 +4,7 @@ import com.ebook.backend.entity.Cart;
 import com.ebook.backend.entity.User;
 import com.ebook.backend.entity.UserAuthority;
 import com.ebook.backend.utils.messagegutils.Message;
+import net.sf.json.JSONArray;
 
 import java.util.List;
 
@@ -20,4 +21,9 @@ public interface UserDao {
 
     Message checkUserDup(String userName);
 
+    JSONArray getAllUsers();
+
+    Message banUser(int userId);
+
+    Message liftUser(int userId);
 }

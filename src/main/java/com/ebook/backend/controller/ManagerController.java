@@ -6,9 +6,11 @@ import com.ebook.backend.service.UserService;
 import com.ebook.backend.utils.messagegutils.Message;
 import com.ebook.backend.utils.messagegutils.MessageUtil;
 import com.ebook.backend.utils.sessionutils.SessionUtil;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -29,5 +31,19 @@ public class ManagerController {
         if(SessionUtil.getUserType()<=0) return MessageUtil.makeMsg(-1,"无权访问") ;
 
         return bookService.modifyBook(params);
+    }
+    @RequestMapping("/manage/getAllUsers")
+    JSONArray getAllUsers(){
+        if(SessionUtil.getUserType()<=0) return null;
+        return userService.getAllUsers();
+    }
+
+    @RequestMapping("/setUserPermission/ban")
+    Message banUser(@RequestParam("userId") int userId){
+        return userService.banUser(userId);
+    }
+    @RequestMapping("/setUserPermission/lift")
+    Message liftUser(@RequestParam("userId") int userId){
+        return userService.liftUser(userId);
     }
 }

@@ -22,6 +22,16 @@ public class UserAuthority {
 
     private Integer userType;
 
+    private Integer userState;
+
+    public Integer getUserState() {
+        return userState;
+    }
+
+    public void setUserState(Integer userState) {
+        this.userState = userState;
+    }
+
     public Integer getUserId() {
         return userId;
     }

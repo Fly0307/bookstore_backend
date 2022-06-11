@@ -28,7 +28,7 @@ public class LoginController {
         String password = params.get(Constant.PASSWORD);
         UserAuthority auth = userService.checkUser(username, password);
 
-        if(auth != null){
+        if(auth != null&&auth.getUserType()>=0){
 
             JSONObject obj = new JSONObject();
             obj.put(Constant.USER_ID, auth.getUserId());
@@ -42,7 +42,11 @@ public class LoginController {
             return MessageUtil.makeMsg(MessageCode.SUCCESS, MessageUtil.LOGIN_SUCCESS_MSG, data);
         }
         else{
-            return MessageUtil.makeMsg(MessageCode.LOGIN_USER_ERROR);
+            assert auth != null;
+            if (auth.getUserType()==-1){
+                return MessageUtil.makeMsg(MessageCode.valueOf(MessageUtil.LOGIN_FORBIDDEN_MSG));
+            }
+            else return MessageUtil.makeMsg(MessageCode.LOGIN_USER_ERROR);
         }
     }
 
