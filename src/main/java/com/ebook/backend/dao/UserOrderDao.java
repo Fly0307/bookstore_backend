@@ -29,4 +29,6 @@ public interface UserOrderDao{
     List<UserOrder> getOnesOrder(Date start, Date end,Integer userId);
 
     Message updateOrder(Integer orderId, Integer orderState);
+
+    List<UserOrder> getAllOrderByKeyword(Date start, Date end, String keyword);
 }

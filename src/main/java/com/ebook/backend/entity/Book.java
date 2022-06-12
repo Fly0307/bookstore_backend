@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "book")
+//@Table(name = "book")
 @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "bookId")
 public class Book {
@@ -20,7 +20,7 @@ public class Book {
     @Column(name = "book_id")
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    private int bookId;
+    private Integer bookId;
 
     private String isbn;
     private String name;

@@ -1,13 +1,16 @@
 package com.ebook.backend.entity;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -32,9 +35,10 @@ public class UserOrder {
     Integer totalPrice;
     Integer state;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderId")
-    @JsonProperty(access = JsonProperty.Access.AUTO)
-    private List<OrderItem> orderItems;
 
+//    @JsonProperty(access = JsonProperty.Access.AUTO)
+//    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "orderId")
+    Set<OrderItem> orders;
 }

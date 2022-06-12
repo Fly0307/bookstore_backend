@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +43,22 @@ public class UserOrderController {
         String receiver =order.getString("receiver");
         JSONArray cartItems = order.getJSONArray("books");
         return userOrderService.recordUserOrder(receiver,tel,address,cartItems);
+    }
+    /*关键词获取订单信息*/
+    @RequestMapping("/getAllOrderByKeyword")
+    List<UserOrder> getAllOrderByKeyword(@RequestBody JSONObject infos) throws ParseException {
+        String word = infos.getString("key");
+        String startT = infos.getString("start");
+        String endT =infos.getString("end");
+        if(!startT.equals("")&&!endT.equals("")){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date start = sdf.parse(startT);
+            SimpleDateFormat sbf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date end = sbf.parse(endT);
+            return userOrderService.getAllOrderByKeyword(start,end,word);
+        }
+        return userOrderService.getAllOrderByKeyword(new Date(0),new Date(),word);
+
     }
 
 }

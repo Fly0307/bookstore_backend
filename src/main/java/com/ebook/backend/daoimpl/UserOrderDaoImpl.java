@@ -1,6 +1,7 @@
 package com.ebook.backend.daoimpl;
 
 import com.ebook.backend.dao.UserOrderDao;
+import com.ebook.backend.entity.Book;
 import com.ebook.backend.entity.OrderItem;
 import com.ebook.backend.entity.UserOrder;
 import com.ebook.backend.repository.BookRepository;
@@ -14,8 +15,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class UserOrderDaoImpl implements UserOrderDao {
@@ -90,9 +93,11 @@ public class UserOrderDaoImpl implements UserOrderDao {
     @Override
     public void addOrderItem(Integer orderId, Integer bookId, Integer purchaseNumber) {
         OrderItem orderItem = new OrderItem();
+        Book book=bookRepository.getBookById(bookId);
         orderItem.setOrderId(orderId);
         orderItem.setPurchaseNumber(purchaseNumber);
         orderItem.setBookId(bookId);
+        orderItem.setPrice(book.getPrice());
         orderItemRepository.save(orderItem);
     }
 
@@ -115,6 +120,22 @@ public class UserOrderDaoImpl implements UserOrderDao {
 //        userOrderRepository.save(userOrder);
         userOrderRepository.updateState(orderId,orderState);
         return MessageUtil.makeMsg(1,"修改订单成功");
+    }
+
+    @Override
+    public List<UserOrder> getAllOrderByKeyword(Date start, Date end, String keyword) {
+        List<UserOrder> allOrdersByDate = userOrderRepository.getOrderByDate(start,end);
+        List<UserOrder> resultOrders = new ArrayList<>();
+        for (UserOrder userOrder : allOrdersByDate) {
+            Set<OrderItem> items = userOrder.getOrders();
+            for (OrderItem item : items) {
+                if(item.getBook().getName().contains(keyword)){
+                    resultOrders.add(userOrder);
+                    break;
+                }
+            }
+        }
+        return resultOrders ;
     }
 
 }

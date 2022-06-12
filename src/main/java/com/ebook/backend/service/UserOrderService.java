@@ -3,8 +3,8 @@ package com.ebook.backend.service;
 import com.ebook.backend.entity.UserOrder;
 import com.ebook.backend.utils.messagegutils.Message;
 import net.sf.json.JSONArray;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,7 +21,5 @@ public interface UserOrderService {
 
     Message modifyOrders(Integer orderId, Integer orderState);
 
-    /*List<UserOrder> getOrderByKeyword(Date start, Date end,String keyword);*/
-
-    /*List<UserOrder> getAllOrderByKeyword(Date start, Date end, String keyword);*/
+    List<UserOrder> getAllOrderByKeyword(Date start, Date end, String keyword);
 }
