@@ -93,6 +93,10 @@ public class BookDaoImpl implements BookDao {
         return MessageUtil.makeMsg(4,"修改成功");
     }
 
+    @Override
+    public List<Book> manageBooks() {
+        return bookRepository.findAll();
+    }
 
 
 }

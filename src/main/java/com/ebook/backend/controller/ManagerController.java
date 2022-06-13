@@ -1,5 +1,6 @@
 package com.ebook.backend.controller;
 
+import com.ebook.backend.entity.UserOrder;
 import com.ebook.backend.service.BookService;
 import com.ebook.backend.service.UserOrderService;
 import com.ebook.backend.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,6 +27,8 @@ public class ManagerController {
 
     @Autowired
     BookService bookService;
+
+
 
     @RequestMapping("/modifyBook")
     Message modifyBook(@RequestBody Map<String, String> params) {
@@ -45,5 +49,12 @@ public class ManagerController {
     @RequestMapping("/setUserPermission/lift")
     Message liftUser(@RequestParam("userId") int userId){
         return userService.liftUser(userId);
+    }
+
+    @RequestMapping("/manage/getAllOrders")
+    List<UserOrder> getAllOrders(){
+        Integer usertype=SessionUtil.getUserType();
+        if(usertype<=0) return null;
+        return userOrderService.manageOrders();
     }
 }

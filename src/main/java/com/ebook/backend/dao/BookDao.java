@@ -19,4 +19,6 @@ public interface BookDao {
     Message changeSale(Integer bookId, Integer purchaseNum);
 
     Message modifyBook(Map<String, String> params);
+
+    List<Book> manageBooks();
 }

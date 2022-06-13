@@ -67,5 +67,10 @@ public class UserController {
 
         return userService.getCart(userid);
     }
+    @RequestMapping("/getUserType")
+    Integer getUserType() {
+
+        return SessionUtil.getUserType();
+    }
 
 }

@@ -127,5 +127,10 @@ public class UserDaoImpl implements UserDao {
         return MessageUtil.makeMsg(5, MessageUtil.LIFT_SUCCESS_MSG);
     }
 
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
 
 }

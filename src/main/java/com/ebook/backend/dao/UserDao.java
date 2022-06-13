@@ -26,4 +26,6 @@ public interface UserDao {
     Message banUser(int userId);
 
     Message liftUser(int userId);
+
+    List<User> getAll();
 }

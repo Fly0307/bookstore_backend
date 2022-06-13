@@ -15,10 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class UserOrderDaoImpl implements UserOrderDao {
@@ -124,18 +121,38 @@ public class UserOrderDaoImpl implements UserOrderDao {
 
     @Override
     public List<UserOrder> getAllOrderByKeyword(Date start, Date end, String keyword) {
-        List<UserOrder> allOrdersByDate = userOrderRepository.getOrderByDate(start,end);
-        List<UserOrder> resultOrders = new ArrayList<>();
-        for (UserOrder userOrder : allOrdersByDate) {
-            Set<OrderItem> items = userOrder.getOrders();
-            for (OrderItem item : items) {
-                if(item.getBook().getName().contains(keyword)){
-                    resultOrders.add(userOrder);
-                    break;
+        Integer usertype=SessionUtil.getUserType();
+        Integer userId=SessionUtil.getUserId();
+        if(usertype==0){
+            List<UserOrder> allOrdersByDate = userOrderRepository.getOrderByDate(start,end);
+            List<UserOrder> resultOrders = new ArrayList<>();
+            for (UserOrder userOrder : allOrdersByDate) {
+                if (Objects.equals(userId, userOrder.getUserId())){
+                    Set<OrderItem> items = userOrder.getOrders();
+                    for (OrderItem item : items) {
+                        if(item.getBook().getName().contains(keyword)){
+                            resultOrders.add(userOrder);
+                            break;
+                        }
+                    }
                 }
             }
+            return resultOrders ;
+        }else {
+            List<UserOrder> allOrdersByDate = userOrderRepository.getOrderByDate(start,end);
+            List<UserOrder> resultOrders = new ArrayList<>();
+            for (UserOrder userOrder : allOrdersByDate) {
+                Set<OrderItem> items = userOrder.getOrders();
+                for (OrderItem item : items) {
+                    if(item.getBook().getName().contains(keyword)){
+                        resultOrders.add(userOrder);
+                        break;
+                    }
+                }
+            }
+            return resultOrders ;
         }
-        return resultOrders ;
+
     }
 
 }
