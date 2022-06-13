@@ -82,6 +82,7 @@ public class StatisticsServiceimpl implements StatisticsService {
         List<User> allUser = userDao.getAll();
         JSONArray ret = new JSONArray();
         HashMap<Integer,BigDecimal> idToConsumption = new HashMap<>();
+        HashMap<Integer,BigDecimal> idToBookNum = new HashMap<>();
 
 
         for (UserOrder order : allUserOrder) {
@@ -92,9 +93,12 @@ public class StatisticsServiceimpl implements StatisticsService {
                 BigDecimal price = BigDecimal.valueOf(item.getBook().getPrice());
                 if (idToConsumption.containsKey(userId)) {
                     BigDecimal lastConsumption = idToConsumption.get(userId);
+                    BigDecimal lastNums = idToBookNum.get(userId);
                     idToConsumption.put(userId, lastConsumption.add(price.multiply(sale)));
+                    idToBookNum.put(userId,lastNums.add(sale));
                 } else {
                     idToConsumption.put(userId, price.multiply(sale));
+                    idToBookNum.put(userId,sale);
                 }
             }
         }
@@ -103,6 +107,7 @@ public class StatisticsServiceimpl implements StatisticsService {
             if(idToConsumption.containsKey(user.getUserId())){
                 JSONObject obj = JSONObject.fromObject(user);
                 obj.put("consumption",idToConsumption.get(user.getUserId()));
+                obj.put("bookNums",idToBookNum.get(user.getUserId()));
                 ret.add(obj);
             }
             else {
