@@ -21,4 +21,6 @@ public interface BookDao {
     Message modifyBook(Map<String, String> params);
 
     List<Book> manageBooks();
+
+    Message deleteBook(Integer bookId);
 }

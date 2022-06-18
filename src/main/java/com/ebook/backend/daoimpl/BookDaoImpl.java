@@ -47,9 +47,10 @@ public class BookDaoImpl implements BookDao {
     public List<Book> getBooks() {
         return bookRepository.getBooks();
     }
-
+    @Transactional
     @Override
     public Message addBook(String isbn, String name, String type, String author, String description, String image, Integer num, Boolean state, Integer price){
+        System.out.format("新增isbn 为 %s 的书",isbn);
         Book book = new Book();
         book.setAuthor(author);
         book.setImage(image);
@@ -87,7 +88,7 @@ public class BookDaoImpl implements BookDao {
         book.setImage(params.get("image"));
         book.setPrice(Integer.valueOf(params.get("price")));
         book.setAuthor(params.get("author"));
-        book.setState(params.get("state").equals("1"));
+        book.setState(Boolean.valueOf(params.get("state")));
 //        redisUtil.set(bookKey,book,300);
         bookRepository.save(book);
         return MessageUtil.makeMsg(4,"修改成功");
@@ -96,6 +97,18 @@ public class BookDaoImpl implements BookDao {
     @Override
     public List<Book> manageBooks() {
         return bookRepository.findAll();
+    }
+
+    @Override
+    public Message deleteBook(Integer bookId) {
+        Book book=bookRepository.getBookById(bookId);
+        if (book!=null){
+            bookRepository.delete(book);
+            return MessageUtil.makeMsg(4,"删除成功");
+
+        }else {
+            return MessageUtil.makeMsg(0,"删除失败");
+        }
     }
 
 

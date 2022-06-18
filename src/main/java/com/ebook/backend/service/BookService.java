@@ -17,4 +17,6 @@ public interface BookService {
                     String image, Boolean state, Integer price);
 
     Message modifyBook(Map<String, String> params);
+
+    Message deleteBook(Integer bookId);
 }

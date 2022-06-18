@@ -38,4 +38,9 @@ public class BookServiceImpl implements BookService {
         return bookDao.modifyBook(params);
     }
 
+    @Override
+    public Message deleteBook(Integer bookId) {
+        return bookDao.deleteBook(bookId);
+    }
+
 }
