@@ -36,9 +36,8 @@ public class UserOrder {
     Integer state;
 
 
-//    @JsonProperty(access = JsonProperty.Access.AUTO)
 //    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "orderId")
     Set<OrderItem> orders;
 }

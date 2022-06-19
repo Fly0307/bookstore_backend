@@ -25,7 +25,7 @@ public class OrderItem {
 
 //    @SuppressWarnings("JpaModelReferenceInspection")
     @MapsId("bookId")
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.DETACH,fetch = FetchType.LAZY)
     @JoinColumn(name = "bookId", referencedColumnName = "book_id")
     private Book book;
 

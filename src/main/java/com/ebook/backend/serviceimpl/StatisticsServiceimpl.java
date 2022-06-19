@@ -89,7 +89,7 @@ public class StatisticsServiceimpl implements StatisticsService {
             Set<OrderItem> items = order.getOrders();
             Integer userId = order.getUserId();
             for (OrderItem item : items) {
-                BigDecimal sale = new BigDecimal(item.getPurchaseNumber().doubleValue());
+                BigDecimal sale = BigDecimal.valueOf(item.getPurchaseNumber().doubleValue());
                 BigDecimal price = BigDecimal.valueOf(item.getBook().getPrice());
                 if (idToConsumption.containsKey(userId)) {
                     BigDecimal lastConsumption = idToConsumption.get(userId);

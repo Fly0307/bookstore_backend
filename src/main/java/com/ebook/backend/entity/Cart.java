@@ -22,7 +22,6 @@ public class Cart {
     private  Integer cartId;
     private Integer userId;
     private Integer bookId;
-
     private Integer purchaseNum;
 
 }

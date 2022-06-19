@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import javax.transaction.Transactional;
 
 @Transactional
-
 public interface UserAuthRepository extends JpaRepository<UserAuthority,Integer>{
 
     @Query(value = "from UserAuthority where username = :username and password = :password")

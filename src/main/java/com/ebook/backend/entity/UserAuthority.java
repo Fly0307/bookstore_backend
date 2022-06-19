@@ -23,7 +23,7 @@ public class UserAuthority {
     private Integer userType;
 
     private Integer userState;
-
+    /*未使用@Data则不需要手动写get\set*/
     public Integer getUserState() {
         return userState;
     }
