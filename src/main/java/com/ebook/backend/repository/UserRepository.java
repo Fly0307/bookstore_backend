@@ -14,6 +14,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     User getUserById(@Param("userId") Integer userId);
 
     @Query(value ="from User where username = ?1")
-    User checkUserDup(String username);
+    User checkUserDup(@Param("username") String username);
+
 
 }

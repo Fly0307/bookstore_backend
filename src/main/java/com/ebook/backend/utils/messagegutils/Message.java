@@ -5,41 +5,41 @@ import net.sf.json.JSONObject;
 
 public class Message {
     private int status;
-    private String msg;
+    private String message;
     private JSONObject data;
 
-    Message(MessageCode msg, JSONObject data){
-        this.status = msg.getStatus();
-        this.msg = msg.getMsg();
+    Message(MessageCode message, JSONObject data){
+        this.status = message.getStatus();
+        this.message = message.getMsg();
         this.data = data;
     }
 
-    Message(MessageCode msg, String extra, JSONObject data){
-        this.status = msg.getStatus();
-        this.msg = extra;
+    Message(MessageCode message, String extra, JSONObject data){
+        this.status = message.getStatus();
+        this.message = extra;
         this.data = data;
     }
 
-    Message(MessageCode msg){
-        this.status = msg.getStatus();
-        this.msg = msg.getMsg();
+    Message(MessageCode message){
+        this.status = message.getStatus();
+        this.message = message.getMsg();
         this.data = null;
     }
-    Message(MessageCode msg, String extra){
-        this.status = msg.getStatus();
-        this.msg = extra;
+    Message(MessageCode message, String extra){
+        this.status = message.getStatus();
+        this.message = extra;
         this.data = null;
     }
 
     Message(int status, String extra, JSONObject data){
         this.status = status;
-        this.msg = extra;
+        this.message = extra;
         this.data = data;
     }
 
     Message(int status, String extra){
         this.status = status;
-        this.msg = extra;
+        this.message = extra;
         this.data = null;
     }
 
@@ -52,11 +52,11 @@ public class Message {
     }
 
     public String getMsg() {
-        return msg;
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMsg(String message) {
+        this.message = message;
     }
 
     public JSONObject getData() {

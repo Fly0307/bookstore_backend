@@ -61,9 +61,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Message register(String username,String password,String email){
+    public Message register(String username,String nickname,String tel,String password,String email){
         User user =new User();
         user.setUsername(username);
+        user.setNickname(nickname);
+        user.setUserTel(tel);
         user.setUserEmail(email);
 
         Integer userId = userRepository.save(user).getUserId();
@@ -73,8 +75,8 @@ public class UserDaoImpl implements UserDao {
         userAuthority.setUsername(username);
         userAuthority.setPassword(password);
         userAuthority.setUserType(0);
-
-        userAuthRepository.save(userAuthority);
+        userAuthority.setUserState(1);
+        userAuthRepository.saveAndFlush(userAuthority);
         return MessageUtil.makeMsg(1,"注册成功,ID为"+userId.toString());
     }
 
@@ -131,6 +133,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> getAll() {
         return userRepository.findAll();
     }
+
 
 
 }

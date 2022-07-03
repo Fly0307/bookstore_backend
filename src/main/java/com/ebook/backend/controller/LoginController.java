@@ -42,9 +42,12 @@ public class LoginController {
             return MessageUtil.makeMsg(MessageCode.SUCCESS, MessageUtil.LOGIN_SUCCESS_MSG, data);
         }
         else{
-            assert auth != null;
-            if (auth.getUserType()==-1){
-                return MessageUtil.makeMsg(MessageCode.valueOf(MessageUtil.LOGIN_FORBIDDEN_MSG));
+//            assert auth != null;
+            if (auth==null){
+                return MessageUtil.makeMsg(MessageCode.LOGIN_USER_ERROR);
+            }
+            else if(auth.getUserType()==-1){
+                return MessageUtil.makeMsg(MessageCode.LOGIN_USER_BIN);
             }
             else return MessageUtil.makeMsg(MessageCode.LOGIN_USER_ERROR);
         }

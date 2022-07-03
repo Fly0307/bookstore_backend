@@ -33,9 +33,15 @@ public class UserController {
     @RequestMapping("/register")
     Message register(@RequestBody Map<String, String> params){
         String username = params.get("username");
+        String nickname=params.get("nickname");
+        String tel=params.get("tel");
         String password =params.get("password");
         String email =params.get("email");
-        return userService.register(username,password,email);
+        return userService.register(username,nickname,tel,password,email);
+    }
+    @RequestMapping("/isExistUser")
+    Message isExistUser(@RequestParam("username") String username){
+        return userService.isexist(username);
     }
 
     @RequestMapping("/addToCart")

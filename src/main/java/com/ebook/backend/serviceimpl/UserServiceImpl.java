@@ -25,12 +25,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Message register(String username,String password,String email){
-        Message msg =userDao.checkUserDup(username);
-        if(msg.getStatus()<0)
-            return msg;
+    public Message register(String username,String nickname,String tel, String password,String email){
+        Message message =userDao.checkUserDup(username);
+        if(message.getStatus()<0)
+            return message;
         System.out.println(email);
-        return userDao.register(username,password,email);
+        return userDao.register(username,nickname,tel,password,email);
     }
     @Override
     public Message addToCart(Integer bookId, Integer purchaseNumber){
@@ -57,5 +57,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Message liftUser(int userId) {
         return userDao.liftUser(userId);
+    }
+
+    @Override
+    public Message isexist(String username) {
+        return userDao.checkUserDup(username);
     }
 }

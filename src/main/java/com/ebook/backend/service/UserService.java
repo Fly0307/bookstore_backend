@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
     UserAuthority checkUser(String username, String password);
 
-    Message register(String username,String password,String email);
+    Message register(String username,String nickname,String tel,String password,String email);
 
     Message addToCart(Integer bookId, Integer purchaseNumber);
 
@@ -21,4 +21,6 @@ public interface UserService {
     Message banUser(int userId);
 
     Message liftUser(int userId);
+
+    Message isexist(String username);
 }
