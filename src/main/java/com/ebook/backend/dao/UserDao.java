@@ -17,7 +17,7 @@ public interface UserDao {
 
     Message addToCart(Integer buyer, Integer bookid, Integer purchaseNum);
 
-    Message register(String username,String nickname,String tel,String password,String email);
+    Message register(String username,String nickname,String tel,String password,String email,String address);
 
     Message checkUserDup(String userName);
 

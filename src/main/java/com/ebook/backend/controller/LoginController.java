@@ -38,8 +38,9 @@ public class LoginController {
 
             JSONObject data = JSONObject.fromObject(auth);
             data.remove(Constant.PASSWORD);
+            return MessageUtil.makeMsg(MessageCode.SUCCESS, MessageUtil.LOGIN_SUCCESS_MSG+","+username, data);
 
-            return MessageUtil.makeMsg(MessageCode.SUCCESS, MessageUtil.LOGIN_SUCCESS_MSG, data);
+//            return MessageUtil.makeMsg(MessageCode.SUCCESS, MessageUtil.LOGIN_SUCCESS_MSG, data);
         }
         else{
 //            assert auth != null;

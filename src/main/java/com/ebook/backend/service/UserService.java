@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
     UserAuthority checkUser(String username, String password);
 
-    Message register(String username,String nickname,String tel,String password,String email);
+    Message register(String username,String nickname,String tel,String password,String email,String address);
 
     Message addToCart(Integer bookId, Integer purchaseNumber);
 

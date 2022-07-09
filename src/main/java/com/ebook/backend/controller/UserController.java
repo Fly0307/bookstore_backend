@@ -37,7 +37,8 @@ public class UserController {
         String tel=params.get("tel");
         String password =params.get("password");
         String email =params.get("email");
-        return userService.register(username,nickname,tel,password,email);
+        String address=params.get("address");
+        return userService.register(username,nickname,tel,password,email,address);
     }
     @RequestMapping("/isExistUser")
     Message isExistUser(@RequestParam("username") String username){
