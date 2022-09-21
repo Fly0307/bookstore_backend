@@ -1,7 +1,6 @@
 package com.ebook.backend.daoimpl;
 
 import com.ebook.backend.dao.UserOrderDao;
-import com.ebook.backend.entity.Book;
 import com.ebook.backend.entity.OrderItem;
 import com.ebook.backend.entity.UserOrder;
 import com.ebook.backend.repository.BookRepository;
@@ -12,6 +11,8 @@ import com.ebook.backend.utils.messagegutils.MessageUtil;
 import com.ebook.backend.utils.sessionutils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -59,7 +60,7 @@ public class UserOrderDaoImpl implements UserOrderDao {
         orderItemRepository.deleteOrderById(OrderId);
         return MessageUtil.makeMsg(1,"删除订单内容成功");
     }
-
+    @Transactional(propagation = Propagation.MANDATORY)
     @Override
     public Integer addUserOrder(String receiver, String tel, String address, Integer totalPrice) {
         Integer userId = SessionUtil.getUserId();
@@ -76,6 +77,7 @@ public class UserOrderDaoImpl implements UserOrderDao {
             userOrder.setTotalPrice(totalPrice);
             userOrder.setOrderTime(Timestamp.valueOf(LocalDateTime.now()));
             userOrder.setState(1);
+//            int result=10/0;
             return userOrderRepository.saveAndFlush(userOrder).getOrderId();//返回生成的OrderId
         }
         return null;
@@ -87,16 +89,16 @@ public class UserOrderDaoImpl implements UserOrderDao {
     }
 
 
-    @Override
-    public void addOrderItem(Integer orderId, Integer bookId, Integer purchaseNumber) {
-        OrderItem orderItem = new OrderItem();
-        Book book=bookRepository.getBookById(bookId);
-        orderItem.setOrderId(orderId);
-        orderItem.setPurchaseNumber(purchaseNumber);
-        orderItem.setBookId(bookId);
-        orderItem.setPrice(book.getPrice());
-        orderItemRepository.save(orderItem);
-    }
+//    @Override
+//    public void addOrderItem(Integer orderId, Integer bookId, Integer purchaseNumber) {
+//        OrderItem orderItem = new OrderItem();
+//        Book book=bookRepository.getBookById(bookId);
+//        orderItem.setOrderId(orderId);
+//        orderItem.setPurchaseNumber(purchaseNumber);
+//        orderItem.setBookId(bookId);
+//        orderItem.setPrice(book.getPrice());
+//        orderItemRepository.save(orderItem);
+//    }
 
     @Override
     public List<UserOrder> getOrderByDate(Date start, Date end) {

@@ -5,6 +5,7 @@ import com.ebook.backend.repository.CartRepository;
 import com.ebook.backend.utils.sessionutils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class CartDaoImpl implements CartDao {
@@ -13,7 +14,7 @@ public class CartDaoImpl implements CartDao {
     CartRepository cartRepository;
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.MANDATORY)
     public void deleteBook(Integer bookId) {
         Integer userId = SessionUtil.getUserId();
         cartRepository.deleteBook(userId,bookId);

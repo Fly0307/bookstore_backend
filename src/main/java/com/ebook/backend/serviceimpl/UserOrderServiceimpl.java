@@ -1,14 +1,10 @@
 package com.ebook.backend.serviceimpl;
 
-import com.ebook.backend.dao.BookDao;
-import com.ebook.backend.dao.CartDao;
-import com.ebook.backend.dao.UserDao;
-import com.ebook.backend.dao.UserOrderDao;
+import com.ebook.backend.dao.*;
 import com.ebook.backend.entity.Book;
 import com.ebook.backend.entity.OrderItem;
 import com.ebook.backend.entity.UserOrder;
 import com.ebook.backend.repository.BookRepository;
-import com.ebook.backend.repository.OrderItemRepository;
 import com.ebook.backend.repository.UserOrderRepository;
 import com.ebook.backend.service.UserOrderService;
 import com.ebook.backend.utils.messagegutils.Message;
@@ -18,6 +14,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -25,8 +22,12 @@ import java.util.List;
 
 @Service
 public class UserOrderServiceimpl implements UserOrderService {
+    @Autowired
 
     private UserOrderDao userOrderDao;
+    @Autowired
+
+    private OrderItemDao orderItemDao;
 
     private BookDao bookDao;
 
@@ -39,8 +40,7 @@ public class UserOrderServiceimpl implements UserOrderService {
     private BookRepository bookRepository;
     @Autowired
     private UserOrderRepository userOrderRepository;
-    @Autowired
-    private OrderItemRepository orderItemRepository;
+
 
     @Autowired
     void setUserDao(UserDao userDao) {
@@ -73,6 +73,8 @@ public class UserOrderServiceimpl implements UserOrderService {
     }
 
 
+    //采取默认情况
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Message recordUserOrder(String receiver,String tel,String address,JSONArray books) {
         Integer totalPrice=0;
@@ -81,20 +83,25 @@ public class UserOrderServiceimpl implements UserOrderService {
             Integer bookId = jobj.getInt("bookId");
             Book tmpBook =bookDao.getBookById(bookId);
             totalPrice=totalPrice+tmpBook.getPrice()*jobj.getInt("purchaseNum");
-            if(jobj.getInt("purchaseNum")>bookDao.getBookById(bookId).getNum())
-            {return MessageUtil.makeMsg(-5,tmpBook.getName()+"库存不够");}
+//            int result_1=10/0;
+            if(jobj.getInt("purchaseNum")>bookDao.getBookById(bookId).getNum()){
+                System.out.println("库存不足");
+                int result=10/0;
+            }
+//            {return MessageUtil.makeMsg(-5,tmpBook.getName()+"库存不够");}
         }
 
         Integer orderId= userOrderDao.addUserOrder(receiver,tel,address,totalPrice);
 
-        /*更新购物车*/
+        /*使用orderItemImpl更新购物车*/
         for (Object book : books) {
             JSONObject jobj = JSONObject.fromObject(book);
             Integer bookId = jobj.getInt("bookId");
             Book tmpBook =bookDao.getBookById(bookId);
             Integer purchaseNum =jobj.getInt("purchaseNum");
             if(bookDao.changeSale(bookId,purchaseNum).getStatus()>0){
-                userOrderDao.addOrderItem(orderId,bookId,purchaseNum);
+                //通过orderItemDao来处理订单的每个内容
+                orderItemDao.addOrderItem(orderId,bookId,purchaseNum);
                 cartDao.deleteBook(bookId);
             }
             else{

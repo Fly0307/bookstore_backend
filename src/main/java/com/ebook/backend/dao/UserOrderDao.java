@@ -22,7 +22,7 @@ public interface UserOrderDao{
     UserOrder getUserOrder(Integer orderId);
 
     //在这个操作前要先用addUserOrder增加一个订单号
-    void addOrderItem(Integer orderId, Integer bookId, Integer purchaseNumber);
+//    void addOrderItem(Integer orderId, Integer bookId, Integer purchaseNumber);
 
     List<UserOrder>  getOrderByDate(Date start, Date end);
 

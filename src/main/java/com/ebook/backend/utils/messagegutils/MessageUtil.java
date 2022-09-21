@@ -26,6 +26,12 @@ public class MessageUtil {
     public static final String BAN_ADMIN_MSG = "无法封禁管理员账号！";
     public static final String LIFT_SUCCESS_MSG = "解禁成功！";
 
+    public static final String PURCHASE_SUCCESS_MSG = "下单成功！";
+
+    public static final String PURCHASE_ERROR_MSG = "下单失败！";
+
+
+
 
 
 

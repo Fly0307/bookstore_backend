@@ -3,6 +3,7 @@ package com.ebook.backend.controller;
 import com.ebook.backend.entity.UserOrder;
 import com.ebook.backend.service.UserOrderService;
 import com.ebook.backend.utils.messagegutils.Message;
+import com.ebook.backend.utils.messagegutils.MessageUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class UserOrderController {
 
     @Autowired
     UserOrderService userOrderService;
+
+    MessageUtil messageUtil;
 
     @RequestMapping("/getUserOrders")
     List<UserOrder> getAllOrders(@RequestBody Map<String, String> params) {
@@ -42,7 +45,18 @@ public class UserOrderController {
         String address =order.getString("address");
         String receiver =order.getString("receiver");
         JSONArray cartItems = order.getJSONArray("books");
-        return userOrderService.recordUserOrder(receiver,tel,address,cartItems);
+        int status=-1;
+        try {
+            status= userOrderService.recordUserOrder(receiver,tel,address,cartItems).getStatus();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(status>=0){
+            return MessageUtil.makeMsg(1,MessageUtil.PURCHASE_SUCCESS_MSG) ;
+        }
+        else {
+            return MessageUtil.makeMsg(-1,MessageUtil.PURCHASE_ERROR_MSG);
+        }
     }
     /*关键词获取订单信息*/
     @RequestMapping("/getAllOrderByKeyword")
