@@ -92,6 +92,7 @@ public class SessionUtil {
                 session.invalidate();
             }
         }
+        System.out.println("移除session成功");
         return true;
     }
 }
