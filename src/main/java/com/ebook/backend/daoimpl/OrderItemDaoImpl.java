@@ -17,16 +17,16 @@ public class OrderItemDaoImpl implements OrderItemDao {
     @Autowired
     OrderItemRepository orderItemRepository;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.MANDATORY)
     @Override
     public void addOrderItem(Integer orderId, Integer bookId, Integer purchaseNumber) {
+        System.out.println("addOrderItem:insert bookid="+bookId);
         OrderItem orderItem = new OrderItem();
         Book book=bookRepository.getBookById(bookId);
         orderItem.setOrderId(orderId);
         orderItem.setPurchaseNumber(purchaseNumber);
         orderItem.setBookId(bookId);
         orderItem.setPrice(book.getPrice());
-         int result =10/0;
         orderItemRepository.save(orderItem);
     }
 }

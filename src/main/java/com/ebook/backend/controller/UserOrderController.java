@@ -7,6 +7,7 @@ import com.ebook.backend.utils.messagegutils.MessageUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,9 @@ public class UserOrderController {
 
         return userOrderService.modifyOrders(orderId,orderState);
     }
+    //使用kafka修改下订单操作
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     @RequestMapping("/newOrder")
     Message newJmsUserOrder(@RequestBody JSONObject order) {
@@ -45,18 +49,24 @@ public class UserOrderController {
         String address =order.getString("address");
         String receiver =order.getString("receiver");
         JSONArray cartItems = order.getJSONArray("books");
-        int status=-1;
-        try {
-            status= userOrderService.recordUserOrder(receiver,tel,address,cartItems).getStatus();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        if(status>=0){
-            return MessageUtil.makeMsg(1,MessageUtil.PURCHASE_SUCCESS_MSG) ;
-        }
-        else {
-            return MessageUtil.makeMsg(-1,MessageUtil.PURCHASE_ERROR_MSG);
-        }
+        //转换数据格式Sring发送给topic
+        String orderdata=order.toString();
+        System.out.println("newJmsUserOrder:orderdata="+orderdata);
+        kafkaTemplate.send("topic1",  "NewOrderData", orderdata);
+
+//        int status=-1;
+//        try {
+//            status= userOrderService.recordUserOrder(receiver,tel,address,cartItems).getStatus();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        if(status>=0){
+//            return MessageUtil.makeMsg(1,MessageUtil.PURCHASE_SUCCESS_MSG) ;
+//        }
+//        else {
+//            return MessageUtil.makeMsg(-1,MessageUtil.PURCHASE_ERROR_MSG);
+//        }
+        return MessageUtil.makeMsg(1,MessageUtil.PURCHASE_SUCCESS_MSG) ;
     }
     /*关键词获取订单信息*/
     @RequestMapping("/getAllOrderByKeyword")

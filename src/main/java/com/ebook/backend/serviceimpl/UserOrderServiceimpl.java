@@ -83,14 +83,12 @@ public class UserOrderServiceimpl implements UserOrderService {
             Integer bookId = jobj.getInt("bookId");
             Book tmpBook =bookDao.getBookById(bookId);
             totalPrice=totalPrice+tmpBook.getPrice()*jobj.getInt("purchaseNum");
-//            int result_1=10/0;
             if(jobj.getInt("purchaseNum")>bookDao.getBookById(bookId).getNum()){
                 System.out.println("库存不足");
-                int result=10/0;
+                return MessageUtil.makeMsg(-5,tmpBook.getName()+"库存不够");
             }
-//            {return MessageUtil.makeMsg(-5,tmpBook.getName()+"库存不够");}
         }
-
+        System.out.println("更新购物车，处理每个订单项目，books="+books);
         Integer orderId= userOrderDao.addUserOrder(receiver,tel,address,totalPrice);
 
         /*使用orderItemImpl更新购物车*/
