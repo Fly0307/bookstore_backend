@@ -6,14 +6,16 @@ import com.ebook.backend.utils.messagegutils.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 @Service
 public class CartServiceimpl implements CartService {
     @Autowired
     CartDao  cartDao;
     
     @Override
-    public void deleteBook(Integer bookId) {
-        cartDao.deleteBook(bookId);
+    public void deleteBook(Integer bookId,Integer userId) {
+        cartDao.deleteBook(bookId,userId );
     }
 
     @Override

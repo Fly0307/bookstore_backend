@@ -4,7 +4,7 @@ import com.ebook.backend.entity.UserOrder;
 import com.ebook.backend.service.UserOrderService;
 import com.ebook.backend.utils.messagegutils.Message;
 import com.ebook.backend.utils.messagegutils.MessageUtil;
-import net.sf.json.JSONArray;
+import com.ebook.backend.utils.sessionutils.SessionUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -45,12 +45,10 @@ public class UserOrderController {
 
     @RequestMapping("/newOrder")
     Message newJmsUserOrder(@RequestBody JSONObject order) {
-        String tel = order.getString("tel");
-        String address =order.getString("address");
-        String receiver =order.getString("receiver");
-        JSONArray cartItems = order.getJSONArray("books");
         //转换数据格式Sring发送给topic
+        order.put("userId",SessionUtil.getUserId());
         String orderdata=order.toString();
+        System.out.println("newJmsUserOrder "+ SessionUtil.getUserId());
         System.out.println("newJmsUserOrder:orderdata="+orderdata);
         kafkaTemplate.send("topic1",  "NewOrderData", orderdata);
 

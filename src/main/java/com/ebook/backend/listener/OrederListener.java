@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ebook.backend.service.UserOrderService;
 import com.ebook.backend.utils.messagegutils.Message;
+import com.ebook.backend.utils.sessionutils.SessionUtil;
 import net.sf.json.JSONArray;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,15 @@ public class OrederListener {
     public void topic1Listener(ConsumerRecord<String, String> record) {
         JSONObject orderdata_json= JSON.parseObject(record.value());
         System.out.println("order_topic1 get data="+orderdata_json);
+        Integer userId=orderdata_json.getInteger("userId");
         String tel = orderdata_json.getString("tel");
         String address =orderdata_json.getString("address");
         String receiver =orderdata_json.getString("receiver");
         JSONArray cartItems = JSONArray.fromObject(orderdata_json.getJSONArray("books"));
         int status=-1;
-        Message message=userOrderService.recordUserOrder(receiver,tel,address,cartItems);
+        System.out.println("topic1Listener:userid="+userId);
+        System.out.println("topic1Listener "+SessionUtil.getUserId());
+        Message message= userOrderService.recordUserOrder(receiver,tel,address,cartItems,userId);
         status= message.getStatus();
         kafkaTemplate.send("topic2",  "OrderStatus", message.getMsg());
     }

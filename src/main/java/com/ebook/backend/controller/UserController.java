@@ -58,7 +58,8 @@ public class UserController {
     @RequestMapping("/deleteCartItem")
     void deleteCartItem(@RequestBody Map<String, Integer> params) {
         Integer bookId =params.get("bookId");
-        cartService.deleteBook(bookId);
+        Integer userId=SessionUtil.getUserId();
+        cartService.deleteBook(bookId,userId);
     }
     @RequestMapping("/modifyCart")
     void modifyCart(@RequestBody Map<String, Integer> params) {

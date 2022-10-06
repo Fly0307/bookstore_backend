@@ -1,7 +1,7 @@
 package com.ebook.backend.dao;
 
 public interface CartDao {
-    void deleteBook(Integer bookid);
+    void deleteBook(Integer bookid, Integer userId);
 
     void modifyCart(Integer bookId, Integer newPurchaseNum);
 

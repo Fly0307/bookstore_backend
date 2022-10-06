@@ -60,15 +60,15 @@ public class UserOrderDaoImpl implements UserOrderDao {
         orderItemRepository.deleteOrderById(OrderId);
         return MessageUtil.makeMsg(1,"删除订单内容成功");
     }
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public Integer addUserOrder(String receiver, String tel, String address, Integer totalPrice) {
-        Integer userId = SessionUtil.getUserId();
-
+    public Integer addUserOrder(String receiver, String tel, String address, Integer totalPrice, Integer userId) {
+        System.out.println("addUserOrder:"+userId+receiver+" "+tel+" "+address);
         if (userId != null) {
-            int permission = SessionUtil.getUserType();
-            if (permission < 0)
-                return null;
+//            使用Listener，丢失Session
+//            int permission = SessionUtil.getUserType();
+//            if (permission < 0)
+//                return null;
             UserOrder userOrder = new UserOrder();
             userOrder.setUserId(userId);
             userOrder.setOrderReceiver(receiver);

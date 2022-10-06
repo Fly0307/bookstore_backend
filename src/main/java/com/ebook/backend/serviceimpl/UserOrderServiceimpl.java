@@ -74,9 +74,9 @@ public class UserOrderServiceimpl implements UserOrderService {
 
 
     //采取默认情况
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
-    public Message recordUserOrder(String receiver,String tel,String address,JSONArray books) {
+    public Message recordUserOrder(String receiver, String tel, String address, JSONArray books, Integer userId) {
         Integer totalPrice=0;
         for (Object book : books) {
             JSONObject jobj = JSONObject.fromObject(book);
@@ -89,7 +89,8 @@ public class UserOrderServiceimpl implements UserOrderService {
             }
         }
         System.out.println("更新购物车，处理每个订单项目，books="+books);
-        Integer orderId= userOrderDao.addUserOrder(receiver,tel,address,totalPrice);
+        System.out.println(userId);
+        Integer orderId= userOrderDao.addUserOrder(receiver,tel,address,totalPrice,userId);
 
         /*使用orderItemImpl更新购物车*/
         for (Object book : books) {
@@ -100,7 +101,7 @@ public class UserOrderServiceimpl implements UserOrderService {
             if(bookDao.changeSale(bookId,purchaseNum).getStatus()>0){
                 //通过orderItemDao来处理订单的每个内容
                 orderItemDao.addOrderItem(orderId,bookId,purchaseNum);
-                cartDao.deleteBook(bookId);
+                cartDao.deleteBook(bookId, userId);
             }
             else{
                 return MessageUtil.makeMsg(-5,tmpBook.getName()+"库存不够");

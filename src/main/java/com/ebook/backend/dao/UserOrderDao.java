@@ -17,7 +17,7 @@ public interface UserOrderDao{
     Message deleteOrder(Integer userId,Integer OrderId);
 
     //返回生成的OrderId
-    Integer addUserOrder(String receiver, String tel, String address, Integer totalPrice);
+    Integer addUserOrder(String receiver, String tel, String address, Integer totalPrice, Integer userId);
 
     UserOrder getUserOrder(Integer orderId);
 

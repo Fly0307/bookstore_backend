@@ -14,7 +14,7 @@ public interface UserOrderService {
 
     List<UserOrder> manageOrders();
 
-    Message recordUserOrder(String receiver,String tel,String address,JSONArray books);
+    Message recordUserOrder(String receiver, String tel, String address, JSONArray books, Integer userId);
 
     Message deleteUserOrders(Integer userId,Integer orderId);
 

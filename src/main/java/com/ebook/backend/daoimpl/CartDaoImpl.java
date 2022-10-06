@@ -14,9 +14,9 @@ public class CartDaoImpl implements CartDao {
     CartRepository cartRepository;
 
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
-    public void deleteBook(Integer bookId) {
-        Integer userId = SessionUtil.getUserId();
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteBook(Integer bookId, Integer userId) {
+//        Integer userId = SessionUtil.getUserId();
         cartRepository.deleteBook(userId,bookId);
     }
 
