@@ -11,6 +11,9 @@ public class MessageUtil {
     public static final int NOT_LOGGED_IN_ERROR = -101;
     public static final int LOGIN_USER_BIN=-102;
 
+    public  static final int PURCHASE_SUCCESS=2;
+    public  static final int PURCHASE_FAIL=-2;
+
 
     public static final String SUCCESS_MSG = "成功！";
     public static final String LOGIN_SUCCESS_MSG = "书城欢迎您！";

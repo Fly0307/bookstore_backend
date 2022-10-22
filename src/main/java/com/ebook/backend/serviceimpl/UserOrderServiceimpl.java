@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 
+import static com.ebook.backend.utils.messagegutils.MessageUtil.PURCHASE_SUCCESS;
+
 @Service
 public class UserOrderServiceimpl implements UserOrderService {
     @Autowired
@@ -110,7 +112,7 @@ public class UserOrderServiceimpl implements UserOrderService {
 
         JSONObject retData = new JSONObject();
         retData.put("orders",books);
-        return MessageUtil.makeMsg(2, "消费成功",retData);
+        return MessageUtil.makeMsg(PURCHASE_SUCCESS, "消费成功",retData);
     }
 
     @Override
@@ -125,6 +127,14 @@ public class UserOrderServiceimpl implements UserOrderService {
         userOrderRepository.deleteById(orderId);
         return MessageUtil.makeMsg(1,"删除成功");
 
+    }
+
+    @Override
+    public Message getOrderState(Integer userId, String receivertel) {
+        UserOrder userOrder=userOrderRepository.getUserOrderByUserIdAndOrderTel(userId,receivertel);
+        System.out.println("getOrderState：订单状态为"+userOrder.getState());
+        if (userOrder.getState()!=null) return MessageUtil.makeMsg(1,"下单成功");
+        else return MessageUtil.makeMsg(0,"下单失败");
     }
 
     @Transactional

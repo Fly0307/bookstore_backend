@@ -82,5 +82,20 @@ public class UserOrderController {
         return userOrderService.getAllOrderByKeyword(new Date(0),new Date(),word);
 
     }
+    @RequestMapping("/getOrderState")
+    Message GetOedraState(@RequestBody JSONObject orderdata){
+        int status=-1;
+        Integer userId=SessionUtil.getUserId();
+        String tel = orderdata.getString("tel");
+        String address =orderdata.getString("address");
+        String receiver =orderdata.getString("receiver");
+        status=userOrderService.getOrderState(userId,tel).getStatus();
+        if(status>=0){
+            return MessageUtil.makeMsg(1,MessageUtil.PURCHASE_SUCCESS_MSG) ;
+        }
+        else {
+            return MessageUtil.makeMsg(-1,MessageUtil.PURCHASE_ERROR_MSG);
+        }
+    }
 
 }
