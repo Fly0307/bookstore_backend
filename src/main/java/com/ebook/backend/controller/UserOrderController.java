@@ -8,6 +8,7 @@ import com.ebook.backend.utils.sessionutils.SessionUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,11 @@ public class UserOrderController {
     UserOrderService userOrderService;
 
     MessageUtil messageUtil;
+
+    @GetMapping("/testMsg")
+    String getTestMsg(){
+        return "Connect successfully!";
+    }
 
     @RequestMapping("/getUserOrders")
     List<UserOrder> getAllOrders(@RequestBody Map<String, String> params) {
