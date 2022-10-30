@@ -73,7 +73,6 @@ public class LoginController {
     @RequestMapping("/checkSession")
     public Message checkSession(){
         JSONObject auth = SessionUtil.getAuth();
-
         if(auth == null){
             return MessageUtil.makeMsg(MessageCode.NOT_LOGGED_IN_ERROR);
         }

@@ -5,6 +5,7 @@ import com.ebook.backend.service.UserOrderService;
 import com.ebook.backend.utils.messagegutils.Message;
 import com.ebook.backend.utils.messagegutils.MessageUtil;
 import com.ebook.backend.utils.sessionutils.SessionUtil;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -56,21 +57,26 @@ public class UserOrderController {
         String orderdata=order.toString();
         System.out.println("newJmsUserOrder "+ SessionUtil.getUserId());
         System.out.println("newJmsUserOrder:orderdata="+orderdata);
-        kafkaTemplate.send("topic1",  "NewOrderData", orderdata);
+//        kafkaTemplate.send("topic1",  "NewOrderData", orderdata);
 
-//        int status=-1;
-//        try {
-//            status= userOrderService.recordUserOrder(receiver,tel,address,cartItems).getStatus();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        if(status>=0){
-//            return MessageUtil.makeMsg(1,MessageUtil.PURCHASE_SUCCESS_MSG) ;
-//        }
-//        else {
-//            return MessageUtil.makeMsg(-1,MessageUtil.PURCHASE_ERROR_MSG);
-//        }
-        return MessageUtil.makeMsg(1,MessageUtil.PURCHASE_SUCCESS_MSG) ;
+        Integer userId=order.getInt("userId");
+        String tel = order.getString("tel");
+        String address =order.getString("address");
+        String receiver =order.getString("receiver");
+        JSONArray cartItems = JSONArray.fromObject(order.getJSONArray("books"));
+        int status=-1;
+        try {
+            status= userOrderService.recordUserOrder(receiver,tel,address,cartItems,userId).getStatus();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(status>=0){
+            return MessageUtil.makeMsg(1,MessageUtil.PURCHASE_SUCCESS_MSG) ;
+        }
+        else {
+            return MessageUtil.makeMsg(-1,MessageUtil.PURCHASE_ERROR_MSG);
+        }
+//        return MessageUtil.makeMsg(1,MessageUtil.PURCHASE_SUCCESS_MSG) ;
     }
     /*关键词获取订单信息*/
     @RequestMapping("/getAllOrderByKeyword")
