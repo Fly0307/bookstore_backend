@@ -25,7 +25,6 @@ public class SessionUtil {
         }
         return false;
     }
-
     public static Integer getUserId() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (requestAttributes != null) {
@@ -46,7 +45,6 @@ public class SessionUtil {
         }
         return null;
     }
-
     public static JSONObject getAuth(){
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         // Session
