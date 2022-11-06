@@ -6,10 +6,7 @@ import com.ebook.backend.utils.messagegutils.Message;
 import com.ebook.backend.utils.messagegutils.MessageUtil;
 import com.ebook.backend.utils.sessionutils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -50,5 +47,10 @@ public class BookController {
         if(SessionUtil.getUserType()<=0) return MessageUtil.makeMsg(-1,"无权访问") ;
         Integer bookId = params.get("bookId");
         return bookService.deleteBook(bookId);
+    }
+    @GetMapping(value = "/searchBook/{key}")
+    List<Book> searchBook(@PathVariable("key")String keyWord){
+
+        return bookService.searchBookByKeyword(keyWord);
     }
 }

@@ -2,11 +2,13 @@ package com.ebook.backend.serviceimpl;
 
 import com.ebook.backend.dao.BookDao;
 import com.ebook.backend.entity.Book;
+import com.ebook.backend.searching.searchfile;
 import com.ebook.backend.service.BookService;
 import com.ebook.backend.utils.messagegutils.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,5 +44,16 @@ public class BookServiceImpl implements BookService {
     public Message deleteBook(Integer bookId) {
         return bookDao.deleteBook(bookId);
     }
+    @Override
+    public List<Book> searchBookByKeyword(String keyWord) {
+        List<Integer> BookIds = searchfile.searchByKeyword(keyWord);
+        List<Book> books = new ArrayList<>();
+        for (Integer bookId : BookIds) {
+            Book book = bookDao.getBookById(bookId);
+            books.add(book);
+        }
+        return books;
+    }
+
 
 }

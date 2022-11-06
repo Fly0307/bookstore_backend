@@ -19,4 +19,6 @@ public interface BookService {
     Message modifyBook(Map<String, String> params);
 
     Message deleteBook(Integer bookId);
+
+    List<Book> searchBookByKeyword(String keyWord);
 }
