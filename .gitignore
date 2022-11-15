@@ -29,3 +29,18 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/index/_0.fdm
+/src/main/resources/index/_0.fdt
+/src/main/resources/index/_0.fdx
+/src/main/resources/index/_0.fnm
+/src/main/resources/index/_0.nvd
+/src/main/resources/index/_0.nvm
+/src/main/resources/index/_0.si
+/src/main/resources/index/_0_Lucene84_0.doc
+/src/main/resources/index/_0_Lucene84_0.pos
+/src/main/resources/index/_0_Lucene84_0.tim
+/src/main/resources/index/_0_Lucene84_0.tip
+/src/main/resources/index/_0_Lucene84_0.tmd
+/src/main/resources/book.json
+/src/main/resources/index/segments_1
+/src/main/resources/index/write.lock

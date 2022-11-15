@@ -35,7 +35,7 @@ public class IndexFiles {
         while ((line = br.readLine()) != null) {
             JSONObject jsonObj = JSONObject.parseObject(line);
             Document document = new Document();
-            document.add(new Field("description", jsonObj.getString("description"), TextField.TYPE_STORED));
+            document.add(new Field("description", jsonObj.getString("description"), TextField.TYPE_NOT_STORED));
             document.add(new Field("id", jsonObj.getString("book_id"), StringField.TYPE_STORED));
             writer.addDocument(document);
         }
