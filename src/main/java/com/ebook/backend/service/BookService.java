@@ -21,4 +21,5 @@ public interface BookService {
     Message deleteBook(Integer bookId);
 
     List<Book> searchBookByKeyword(String keyWord);
+    Boolean UpdateBookImage();
 }

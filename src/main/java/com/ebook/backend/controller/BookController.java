@@ -53,4 +53,11 @@ public class BookController {
 
         return bookService.searchBookByKeyword(keyWord);
     }
+    @GetMapping(value = "/InsertBookImage")
+    String InsertBookImage(){
+        if (bookService.UpdateBookImage()){
+            return  "插入图片成功";
+        }
+        return  "插入图片失败";
+    }
 }

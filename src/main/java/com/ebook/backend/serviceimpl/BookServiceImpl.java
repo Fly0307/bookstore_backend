@@ -2,8 +2,11 @@ package com.ebook.backend.serviceimpl;
 
 import com.ebook.backend.dao.BookDao;
 import com.ebook.backend.entity.Book;
+import com.ebook.backend.entity.BookImage;
+import com.ebook.backend.repository.BookImageRepository;
 import com.ebook.backend.searching.searchfile;
 import com.ebook.backend.service.BookService;
+import com.ebook.backend.utils.Imageutils.ImageInsert;
 import com.ebook.backend.utils.messagegutils.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,9 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookDao bookDao;
+
+    @Autowired
+    private BookImageRepository bookImageRepository;
 
     @Override
     public Book getBookById(Integer id){
@@ -53,6 +59,25 @@ public class BookServiceImpl implements BookService {
             books.add(book);
         }
         return books;
+    }
+
+    @Override
+    public Boolean UpdateBookImage() {
+        String imagePath="E:\\互联网应用开发技术\\bookstorebackend\\bookstore_backend\\src\\main\\resources\\bookimage\\";
+        List<Book> Books=getBooks();
+
+        for (Book book:Books) {
+            String bookName=book.getName();
+            String bookPath=imagePath+bookName;
+            bookPath+=".jpg";
+            String imageBase=ImageInsert.GetImageStr(bookPath);
+            System.out.println("book "+bookName+" base64="+imageBase);
+            BookImage bookImage=new BookImage(book.getBookId(),bookName,imageBase);
+            //            Optional<BookImage> image = bookImageRepository;
+            bookImageRepository.save(bookImage);
+        }
+        System.out.println("存储图片成功");
+        return true;
     }
 
 

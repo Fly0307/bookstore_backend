@@ -2,6 +2,8 @@ package com.ebook.backend.daoimpl;
 
 import com.ebook.backend.dao.BookDao;
 import com.ebook.backend.entity.Book;
+import com.ebook.backend.entity.BookImage;
+import com.ebook.backend.repository.BookImageRepository;
 import com.ebook.backend.repository.BookRepository;
 import com.ebook.backend.utils.messagegutils.Message;
 import com.ebook.backend.utils.messagegutils.MessageUtil;
@@ -12,12 +14,15 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class BookDaoImpl implements BookDao {
 
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private BookImageRepository bookImageRepository;
     @Autowired
     RedisUtil redisUtil;
 
@@ -33,6 +38,11 @@ public class BookDaoImpl implements BookDao {
             System.out.format("redis 中没有 id 为 %d 的书\n",id);
             //新增一本书
             redisUtil.set(bookKey,book,300);
+        }
+        Optional<BookImage> bookImage=bookImageRepository.findById(book.getBookId());
+        if (bookImage.isPresent()){
+            String imageBase64=bookImage.get().getImageBase64();
+            book.setImage(imageBase64);
         }
         return book;
     }
@@ -64,9 +74,19 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> getBooks() {
-//        System.out.println("从Redis读取books");
-//        Object p = redisUtil.get("");
-        return bookRepository.getBooks();
+        List<Book> Books=bookRepository.getBooks();
+        //替换书的图片返回给前端
+        for (Book book :
+            Books) {
+            Integer id=book.getBookId();
+            Optional<BookImage> bookImage=bookImageRepository.findById(id);
+            if (bookImage.isPresent()){
+                String imageBase64= String.valueOf(bookImage.get().getImageBase64());
+                System.out.println("replace book base64="+imageBase64);
+                book.setImage(imageBase64);
+            }
+        }
+        return Books;
     }
     @Transactional
     @Override
