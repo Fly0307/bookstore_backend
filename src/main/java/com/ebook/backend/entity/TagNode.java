@@ -1,12 +1,15 @@
 package com.ebook.backend.entity;
 
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
-import javax.persistence.GeneratedValue;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Node
 public class TagNode {
@@ -36,7 +39,14 @@ public class TagNode {
     public void relatedTo(TagNode tagNode) {
         relatedTagNode.add(tagNode);
     }
+    public String toString() {
 
+        return this.name + "'s relatedTag => "
+                + Optional.ofNullable(this.relatedTagNode).orElse(
+                        Collections.emptySet()).stream()
+                .map(TagNode::getName)
+                .collect(Collectors.toList());
+    }
     public Long getId() {
         return id;
     }
@@ -52,5 +62,6 @@ public class TagNode {
     public void setName(String name) {
         this.name = name;
     }
+    public Set<TagNode> getRelatedTagNode(){return relatedTagNode;}
 
 }

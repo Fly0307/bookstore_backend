@@ -53,6 +53,13 @@ public class BookController {
 
         return bookService.searchBookByKeyword(keyWord);
     }
+
+    /*通过标签进行搜索相关书籍
+    * */
+    @GetMapping(value = "/searchRelatedBook/{Tag}")
+    List<Book> searchRelatedBook(@PathVariable("Tag")String keyWord){
+        return bookService.searchRelatedBookByTag(keyWord);
+    }
     @GetMapping(value = "/InsertBookImage")
     String InsertBookImage(){
         if (bookService.UpdateBookImage()){

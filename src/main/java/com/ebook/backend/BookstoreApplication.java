@@ -4,6 +4,8 @@ import com.ebook.backend.entity.Book;
 import com.ebook.backend.entity.TagNode;
 import com.ebook.backend.repository.BookRepository;
 import com.ebook.backend.repository.TagNodeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -43,29 +45,41 @@ public class BookstoreApplication {
 //        tomcat.addAdditionalTomcatConnectors(connector);
 //        return tomcat;
 //    }
-    public static void main(String[] args) {SpringApplication.run(BookstoreApplication.class, args);
+    private final static Logger log = LoggerFactory.getLogger(BookstoreApplication.class);
+
+    public static void main(String[] args)  throws Exception{
+        SpringApplication.run(BookstoreApplication.class, args);
     }
     @Bean
     CommandLineRunner createTagNodeAndConnect(TagNodeRepository tagNodeRepository, BookRepository bookRepository) {
         return args -> {
-
             tagNodeRepository.deleteAll();
             List<Book> books = bookRepository.getBooks();
             //从type中读取标签并建立Node关系
             for (Book book :
                     books) {
+                TagNode tagNode1,tagNode2;
                 String types = book.getType();
                 String type1= types.split("、")[0];
-                String type2=types.split("、")[1];
-                TagNode tagNode1=new TagNode(type1);
-                tagNodeRepository.save(tagNode1);
-                tagNode1=tagNodeRepository.findByName(type1);
-                if(!Objects.equals(type2, "")){
-                    TagNode tagNode2=new TagNode(type2);
-                    tagNodeRepository.save(tagNode2);
-                    tagNode1.relatedTo(tagNode2);
+                String type2="";
+                if(types.contains("、")){
+                    type2=types.split("、")[1];
                 }
-                tagNodeRepository.save(tagNode1);
+                tagNode1=tagNodeRepository.findByName(type1);
+                if(tagNode1==null){
+                    tagNode1=new TagNode(type1);
+                }
+
+                if(!Objects.equals(type2, "")){
+                    tagNode2=tagNodeRepository.findByName(type2);
+                    if (tagNode2==null){
+                        tagNode2=new TagNode(type2);
+                    }
+                    tagNode1.relatedTo(tagNode2);
+                    tagNode2.relatedTo(tagNode1);
+                    tagNodeRepository.save(tagNode1);
+                    tagNodeRepository.save(tagNode2);
+                }
             }
         };
     }

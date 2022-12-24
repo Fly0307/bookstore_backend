@@ -7,7 +7,7 @@ import com.ebook.backend.repository.BookImageRepository;
 import com.ebook.backend.repository.BookRepository;
 import com.ebook.backend.utils.messagegutils.Message;
 import com.ebook.backend.utils.messagegutils.MessageUtil;
-import com.ebook.backend.utils.redis.RedisUtil;
+//import com.ebook.backend.utils.redis.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,22 +23,22 @@ public class BookDaoImpl implements BookDao {
     private BookRepository bookRepository;
     @Autowired
     private BookImageRepository bookImageRepository;
-    @Autowired
-    RedisUtil redisUtil;
+//    @Autowired
+//    RedisUtil redisUtil;
 
     @Override
     public Book getBookById(Integer id){
         String bookKey = "bookId:" + id;
-        Book book =(Book) redisUtil.get(bookKey);
-        if(book!=null){
-            System.out.format("redis 中有 id 为 %d 的书\n",id);
-        }
-        else {
-            book = bookRepository.getBookById(id);
-            System.out.format("redis 中没有 id 为 %d 的书\n",id);
-            //新增一本书
-            redisUtil.set(bookKey,book,300);
-        }
+        Book book= bookRepository.getBookById(id);
+//        if(book!=null){
+//            System.out.format("redis 中有 id 为 %d 的书\n",id);
+//        }
+//        else {
+//            book = bookRepository.getBookById(id);
+//            System.out.format("redis 中没有 id 为 %d 的书\n",id);
+//            //新增一本书
+//            redisUtil.set(bookKey,book,300);
+//        }
         Optional<BookImage> bookImage=bookImageRepository.findById(book.getBookId());
         if (bookImage.isPresent()){
             String imageBase64=bookImage.get().getImageBase64();
@@ -50,21 +50,22 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Message changeSale(Integer bookId, Integer purchaseNum) {
         String bookKey = "bookId:" + bookId;
-        Book book =(Book) redisUtil.get(bookKey);
+        Book book=bookRepository.getBookById(bookId);
+//        Book book =(Book) redisUtil.get(bookKey);
 //        Book book = bookRepository.getBookById(bookId);
-        if(book!=null){
-            System.out.format("redis有 id 为 %d 的书\n",bookId);
+//        if(book!=null){
+//            System.out.format("redis有 id 为 %d 的书\n",bookId);
 //            return MessageUtil.makeMsg(-1, "没有此书");
-        }else {
-            book = bookRepository.getBookById(bookId);
-            System.out.format("redis 中没有 id 为 %d 的书\n", bookId);
-        }
+//        }else {
+//            book = bookRepository.getBookById(bookId);
+//            System.out.format("redis 中没有 id 为 %d 的书\n", bookId);
+//        }
             Integer num = book.getNum();
             Integer newNum = num - purchaseNum;
             if (newNum >= 0) {
                 book.setNum(num - purchaseNum);
                 //redis更新
-                redisUtil.set(bookKey,book,300);
+//                redisUtil.set(bookKey,book,300);
                 bookRepository.save(book);
                 return MessageUtil.makeMsg(5, "记录成功");
             }
@@ -82,7 +83,7 @@ public class BookDaoImpl implements BookDao {
             Optional<BookImage> bookImage=bookImageRepository.findById(id);
             if (bookImage.isPresent()){
                 String imageBase64= String.valueOf(bookImage.get().getImageBase64());
-                System.out.println("replace book base64="+imageBase64);
+//                System.out.println("replace book base64="+imageBase64);
                 book.setImage(imageBase64);
             }
         }
@@ -106,7 +107,7 @@ public class BookDaoImpl implements BookDao {
         Integer bookId=bookRepository.getBookByIsbn(isbn).getBookId();
         String bookKey="bookid"+bookId;
         System.out.format("redis 中新增 id 为 %d 的书\n",bookId);
-        redisUtil.set(bookKey,book);
+//        redisUtil.set(bookKey,book);
         return MessageUtil.makeMsg(200, "加入成功");
     }
 
@@ -116,15 +117,15 @@ public class BookDaoImpl implements BookDao {
     public Message modifyBook(Map<String, String> params){
         Integer bookId = Integer.parseInt(params.get("bookId"));
         String bookKey = "bookId:" + bookId;
-//        Book book=bookRepository.getBookById(bookId);
-        Book book =(Book) redisUtil.get(bookKey);
-        if(book!=null){
-            System.out.format("redis 中有 id 为 %d 的书\n",bookId);
-        }
-        else {
-            book = bookRepository.getBookById(bookId);
-            System.out.format("redis 中没有 id 为 %d 的书\n",bookId);
-        }
+        Book book=bookRepository.getBookById(bookId);
+//        Book book =(Book) redisUtil.get(bookKey);
+//        if(book!=null){
+//            System.out.format("redis 中有 id 为 %d 的书\n",bookId);
+//        }
+//        else {
+//            book = bookRepository.getBookById(bookId);
+//            System.out.format("redis 中没有 id 为 %d 的书\n",bookId);
+//        }
         book.setDescription(params.get("description"));
         book.setIsbn(params.get("isbn"));
         book.setNum(Integer.parseInt(params.get("num")));
@@ -134,7 +135,7 @@ public class BookDaoImpl implements BookDao {
         book.setPrice(Integer.valueOf(params.get("price")));
         book.setAuthor(params.get("author"));
         book.setState(Boolean.valueOf(params.get("state")));
-        redisUtil.set(bookKey,book,300);
+//        redisUtil.set(bookKey,book,300);
         System.out.format("修改redis中bookid=%d的书\n",bookId);
         bookRepository.save(book);
         System.out.format("修改数据库中bookid=%d的书\n",bookId);
@@ -149,17 +150,18 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Message deleteBook(Integer bookId) {
         String bookKey = "bookId:" + bookId;
-        Book book =(Book) redisUtil.get(bookKey);
+        Book book = bookRepository.getBookById(bookId);
+//        Book book =(Book) redisUtil.get(bookKey);
 //        Book book=bookRepository.getBookById(bookId);
-        if (book!=null){
-            System.out.format("删除redis 中 id 为 %d 的书\n",bookId);
-            redisUtil.del(bookKey);
-
-
-        }else {
-            book = bookRepository.getBookById(bookId);
-
-        }
+//        if (book!=null){
+//            System.out.format("删除redis 中 id 为 %d 的书\n",bookId);
+//            redisUtil.del(bookKey);
+//
+//
+//        }else {
+//            book = bookRepository.getBookById(bookId);
+//
+//        }
         bookRepository.delete(book);
         System.out.format("删除数据库中bookid=%d的书\n",bookId);
         return MessageUtil.makeMsg(4,"删除成功");

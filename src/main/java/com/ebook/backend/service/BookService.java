@@ -22,4 +22,6 @@ public interface BookService {
 
     List<Book> searchBookByKeyword(String keyWord);
     Boolean UpdateBookImage();
+
+    List<Book> searchRelatedBookByTag(String tag);
 }
