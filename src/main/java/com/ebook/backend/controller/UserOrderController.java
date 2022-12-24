@@ -8,7 +8,6 @@ import com.ebook.backend.utils.sessionutils.SessionUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +46,8 @@ public class UserOrderController {
         return userOrderService.modifyOrders(orderId,orderState);
     }
     //使用kafka修改下订单操作
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+//    @Autowired
+//    private KafkaTemplate<String, String> kafkaTemplate;
 
     @RequestMapping("/newOrder")
     Message newJmsUserOrder(@RequestBody JSONObject order) {
